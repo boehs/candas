@@ -14,22 +14,26 @@ export default function Modules() {
 
     return <>
         <For each={modules()}>
-            {(module,i) => <details>
+            {(module, i) => <details>
                 <summary>{module.name}</summary>
                 <table>
-                    <tr>
-                        <th>Title</th>
-                        <th>Type</th>
-                    </tr>
-                    <For each={module.items}>
-                        {item => <tr>
-                            <td style={{
-                                "display": "inline-block",
-                                "margin-left": `${item.indent*30}px`
-                            }}>{item.title}</td>
-                            <td>{item.type}</td>
-                        </tr>}
-                    </For>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <For each={module.items}>
+                            {item => <tr>
+                                <td style={{
+                                    "display": "inline-block",
+                                    "margin-left": `${item.indent * 30}px`
+                                }}>{item.title}</td>
+                                <td>{item.type}</td>
+                            </tr>}
+                        </For>
+                    </tbody>
                 </table>
             </details>}
 

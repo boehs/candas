@@ -18,6 +18,27 @@ function AssignmentTable(props: {
     }]
 }) {
     return <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Possible</th>
+                {/*<th>Grade</th>*/}
+                <th>Due</th>
+            </tr>
+        </thead>
+        <tbody>
+            <For each={props.assignments.sort((a, b) => b.position - a.position)}>
+                {assignment => <tr style={{
+                    color: (() => {
+                        if (new Date(assignment.due_at).getTime() > new Date().getTime()) return "green"
+                    })()
+                }}>
+                    <td>{assignment.name}</td>
+                    <td>{assignment.points_possible}</td>
+                    <td>{(new Date(assignment.due_at)).toLocaleDateString()}</td>
+                </tr>}
+            </For>
+        </tbody>
     </table>
 }
 
