@@ -11,13 +11,6 @@ export function routeData() {
   return { courses }
 }
 
-function stringToColour(stringInput) {
-  let stringUniqueHash = [...stringInput].reduce((acc, char) => {
-      return char.charCodeAt(0) + ((acc << 5) - acc);
-  }, 0);
-  return `hsl(${stringUniqueHash % 360}, 30%, 50%)`;
-}
-
 
 export const pages = ["Announcements", "Assignments", "Modules", "Wiki"] as const
 
@@ -28,7 +21,7 @@ export default function Main() {
     <section class="sticky">
       <ul>
         <For each={courses()}>
-          {course => <li><A style={{ color: stringToColour(course.name) }} end={false} href={`/course/${course.id}/${"wiki"}`}>{course.name}</A></li>}
+          {(course,i) => <li><A style={{ color: `hsl(${(360/courses().length)*i()},50%,60%)` }} end={false} href={`/course/${course.id}/${"wiki"}`}>{course.name}</A></li>}
         </For>
       </ul>
     </section>
