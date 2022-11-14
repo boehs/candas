@@ -1,10 +1,11 @@
 import { For } from "solid-js"
-import { RouteDataArgs, useParams, useRouteData } from "solid-start"
+import { RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
+import Table from "~/components/table"
 import api from "~/lib/api"
 
-export function routeData({params}: RouteDataArgs) {
-    const modules = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`),{
+export function routeData({ params }: RouteDataArgs) {
+    const modules = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`), {
         key: () => [params.id]
     })
     return { modules }
@@ -16,29 +17,20 @@ export default function Modules() {
 
     return <>
         <For each={modules()}>
-            {(module, i) => <details>
+            {module => <details>
                 <summary>{module.name}</summary>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <For each={module.items}>
-                            {item => <tr>
-                                <td style={{
-                                    "display": "inline-block",
-                                    "margin-left": `${item.indent * 30}px`
-                                }}>{item.title}</td>
-                                <td>{item.type}</td>
-                            </tr>}
-                        </For>
-                    </tbody>
-                </table>
+                <Table headers={['Title', 'Type']}>
+                    <For each={module.items}>
+                        {item => <tr>
+                            <td style={{
+                                "display": "inline-block",
+                                "margin-left": `${item.indent * 30}px`
+                            }}>{item.title}</td>
+                            <td>{item.type}</td>
+                        </tr>}
+                    </For>
+                </Table>
             </details>}
-
         </For>
     </>
 }
