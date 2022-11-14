@@ -54,3 +54,9 @@ table {
     padding: 10px;
   }
 }
+
+.sticky {
+  height: 0px;
+  position: sticky;
+  top: 50px
+}

@@ -4,7 +4,7 @@ import { pages } from "../(main)";
 
 export default function Course() {
     return <>
-        <ul>
+        <ul class="sticky">
             <For each={pages}>
                 {item => <li><a href={`${item.toLowerCase()}`}>{item}</a></li>}
             </For>

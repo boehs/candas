@@ -15,7 +15,7 @@ export default function Main() {
   const { courses } = useRouteData<typeof routeData>()
 
   return (<>
-    <section>
+    <section class="sticky">
       <ul>
         <For each={courses()}>
           {course => <li><A end={false} href={`/course/${course.id}/${"wiki"}`}>{course.name}</A></li>}

@@ -8,7 +8,7 @@ export function routeData() {
     return { annoucements }
 }
 
-export default function Assignments() {
+export default function Announcements() {
     const { annoucements } = useRouteData<typeof routeData>()
     
     return <>
