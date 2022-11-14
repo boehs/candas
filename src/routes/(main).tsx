@@ -1,7 +1,8 @@
 import { createShortcut } from "@solid-primitives/keyboard";
-import { createSignal, For, Resource } from "solid-js";
-import { A, Outlet, useLocation, useNavigate, useRouteData } from "solid-start";
+import { createSignal, For, Resource, Show } from "solid-js";
+import { A, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
+import Spinner from "~/components/spinner";
 import api from "~/lib/api";
 
 export function routeData() {
@@ -22,14 +23,20 @@ export const [mode, setMode] = createSignal<typeof pages[number][number]>(pages[
 
 export default function Main() {
   const location = useLocation()
-  setMode(pages.find(v => location.pathname.includes(v[0].toLowerCase()))[0])
   const navigate = useNavigate()
+  const isRouting = useIsRouting()
+  setMode(pages.find(v => location.pathname.includes(v[0].toLowerCase()))[0])
   const { courses } = useRouteData<typeof routeData>()
 
   if (courses()) courses().forEach((course, i) => createShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode()}`)))
 
   return (<>
-    <h2>Candas</h2>
+    <h2>
+      Candas
+      <Show when={isRouting()}>
+        <Spinner/>
+      </Show>
+    </h2>
     <div id="content">
       <section class="sticky">
         <ul>
