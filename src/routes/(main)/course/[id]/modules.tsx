@@ -8,14 +8,13 @@ export function routeData() {
     return { modules }
 }
 
-const [open,setOpen] = createSignal(0)
 
 export default function Modules() {
     const { modules } = useRouteData<typeof routeData>()
 
     return <>
         <For each={modules()}>
-            {(module,i) => <details open={i() == open()}>
+            {(module,i) => <details>
                 <summary onClick={() => setOpen(i())}>{module.name}</summary>
                 <table>
                     <tr>

@@ -1,4 +1,4 @@
-import { createSignal, For } from "solid-js"
+import { createSignal, For, Show } from "solid-js"
 import { useParams, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
@@ -21,9 +21,10 @@ function AssignmentTable(props: {
         <tr>
             <th>Name</th>
             <th>Possible</th>
+            {/*<th>Grade</th>*/}
             <th>Due</th>
         </tr>
-        <For each={props.assignments.sort((a,b) => b.position - a.position)}>
+        <For each={props.assignments.sort((a, b) => b.position - a.position)}>
             {assignment => <tr style={{
                 color: (() => {
                     if (new Date(assignment.due_at).getTime() > new Date().getTime()) return "green"
@@ -42,10 +43,12 @@ export default function Assignments() {
 
     return <>
         <For each={assignmentsGroups()}>
-            {(group, i) => <details open>
-                <summary onClick={() => setOpen(i())}>{group.name}</summary>
-                <AssignmentTable assignments={group.assignments}/>
-            </details>}
+            {(group, i) => <Show when={group.assignments.length > 0}>
+                <details open>
+                    <summary onClick={() => setOpen(i())}>{group.name}</summary>
+                    <AssignmentTable assignments={group.assignments} />
+                </details>
+            </Show>}
         </For>
         {/*<AssignmentTable assignments={assignments()}/>*/}
     </>

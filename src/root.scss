@@ -4,10 +4,18 @@
   --accent: #1c75a5;
 }
 
+* {
+  border-radius: 5px;
+}
+
 a {
   color: var(--accent);
   font-weight: bold;
   text-decoration: none;
+  
+  &[href*="//"] {
+    font-weight: lighter;
+  }
 }
 
 a.active {
@@ -59,4 +67,8 @@ table {
   height: 0px;
   position: sticky;
   top: 50px
+}
+
+details {
+  padding: 10px;
 }
