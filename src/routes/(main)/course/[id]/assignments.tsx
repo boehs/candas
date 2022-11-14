@@ -4,7 +4,7 @@ import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 
 export function routeData() {
-    const assignments = createServerData$(async () => await api(`courses/${useParams().id}/assignments`))
+    const assignments = "createServerData$(async () => await api(`courses/${useParams().id}/assignments`))"
     const assignmentsGroups = createServerData$(async () => await api(`courses/${useParams().id}/assignment_groups?include[]=assignments`))
     return { assignments, assignmentsGroups }
 }
@@ -12,17 +12,25 @@ export function routeData() {
 function AssignmentTable(props: {
     assignments: [{
         due_at: string,
-        name: string
+        name: string,
+        points_possible: number,
+        position: number
     }]
 }) {
     return <table>
         <tr>
             <th>Name</th>
+            <th>Possible</th>
             <th>Due</th>
         </tr>
-        <For each={props.assignments.sort()}>
-            {assignment => <tr>
+        <For each={props.assignments.sort((a,b) => b.position - a.position)}>
+            {assignment => <tr style={{
+                color: (() => {
+                    if (new Date(assignment.due_at).getTime() > new Date().getTime()) return "green"
+                })()
+            }}>
                 <td>{assignment.name}</td>
+                <td>{assignment.points_possible}</td>
                 <td>{(new Date(assignment.due_at)).toLocaleDateString()}</td>
             </tr>}
         </For>
@@ -34,11 +42,11 @@ export default function Assignments() {
 
     return <>
         <For each={assignmentsGroups()}>
-            {(group, i) => <details>
+            {(group, i) => <details open>
                 <summary onClick={() => setOpen(i())}>{group.name}</summary>
                 <AssignmentTable assignments={group.assignments}/>
             </details>}
         </For>
-        <AssignmentTable assignments={assignments()}/>
+        {/*<AssignmentTable assignments={assignments()}/>*/}
     </>
 }
