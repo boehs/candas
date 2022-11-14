@@ -4,7 +4,9 @@ import { createServerData$ } from "solid-start/server";
 import api from "~/lib/api";
 
 export function routeData() {
-  const courses = createServerData$(async () => await api('courses?enrollment_state=active'))
+  const courses = createServerData$(async () => await api('courses?enrollment_state=active'),{
+    key: [false]
+  })
 
   return { courses }
 }

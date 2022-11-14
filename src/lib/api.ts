@@ -4,6 +4,8 @@ const api = async (...args: Parameters<typeof fetch>) => {
   args[1].headers = {
     "Authorization": `Bearer ${process.env.AUTH}`
   }
+  
+  console.log(`fetching ${args[0]}`)
 
   try {
     let response = await fetch(...args);
