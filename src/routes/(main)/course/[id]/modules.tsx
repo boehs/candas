@@ -1,10 +1,12 @@
-import { createSignal, For } from "solid-js"
-import { useParams, useRouteData } from "solid-start"
+import { For } from "solid-js"
+import { RouteDataArgs, useParams, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 
-export function routeData() {
-    const modules = createServerData$(async () => await api(`courses/${useParams().id}/modules?include[]=items`))
+export function routeData({params}: RouteDataArgs) {
+    const modules = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`),{
+        key: () => [params.id]
+    })
     return { modules }
 }
 

@@ -1,10 +1,12 @@
 import { Suspense } from "solid-js"
-import { useParams, useRouteData } from "solid-start"
+import { RouteDataArgs, useParams, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 
-export function routeData() {
-    const wiki = createServerData$(async () => await api(`courses/${useParams().id}/front_page`))
+export function routeData({params}: RouteDataArgs) {
+    const wiki = createServerData$(async ([id]) => await api(`courses/${id}/front_page`),{
+        key: () => [params.id]
+    })
     return { wiki }
 }
 

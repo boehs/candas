@@ -33,7 +33,7 @@ export default function Main() {
       <ul>
         <For each={courses()}>
           {(course,i) => <li>
-            <span style={{color: "gray"}}>{i()}</span>
+            <span style={{color: "gray"}}>{i()} </span>
             <A style={{ color: `hsl(${(360/courses().length)*i()},50%,60%)` }} end={false} href={`/course/${course.id}/${mode().toLowerCase()}`}>{course.name}</A>
           </li>}
         </For>

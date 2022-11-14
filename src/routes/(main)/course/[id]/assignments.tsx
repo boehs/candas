@@ -1,21 +1,28 @@
-import { createSignal, For, Show } from "solid-js"
-import { useParams, useRouteData } from "solid-start"
+import { For, Resource, Show } from "solid-js"
+import { RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 
-export function routeData() {
+type assignment = [{
+    due_at: string,
+    name: string,
+    points_possible: number,
+    position: number
+}]
+
+export function routeData({params}: RouteDataArgs) {
     const assignments = "createServerData$(async () => await api(`courses/${useParams().id}/assignments`))"
-    const assignmentsGroups = createServerData$(async () => await api(`courses/${useParams().id}/assignment_groups?include[]=assignments`))
+    const assignmentsGroups: Resource<[{
+        name: string,
+        assignments: assignment
+    }]> = createServerData$(async ([id]) => await api(`courses/${id}/assignment_groups?include[]=assignments`),{
+        key: () => [params.id]
+    })
     return { assignments, assignmentsGroups }
 }
 
 function AssignmentTable(props: {
-    assignments: [{
-        due_at: string,
-        name: string,
-        points_possible: number,
-        position: number
-    }]
+    assignments: assignment
 }) {
     return <table>
         <thead>
@@ -43,13 +50,13 @@ function AssignmentTable(props: {
 }
 
 export default function Assignments() {
-    const { assignments, assignmentsGroups } = useRouteData<typeof routeData>()
+    const { assignmentsGroups } = useRouteData<typeof routeData>()
 
     return <>
         <For each={assignmentsGroups()}>
-            {(group, i) => <Show when={group.assignments.length > 0}>
+            {group => <Show when={group.assignments.length > 0}>
                 <details open>
-                    <summary onClick={() => setOpen(i())}>{group.name}</summary>
+                    <summary>{group.name}</summary>
                     <AssignmentTable assignments={group.assignments} />
                 </details>
             </Show>}
