@@ -1,8 +1,8 @@
 const api = async (...args: Parameters<typeof fetch>) => {
   if (!args[1]) args[1] = {}
-  args[0] = `https://${import.meta.env.ENDPOINT}/api/v1/${args[0]}`
+  args[0] = `https://${process.env.ENDPOINT}/api/v1/${args[0]}`
   args[1].headers = {
-    "Authorization": `Bearer ${import.meta.env.AUTH}`
+    "Authorization": `Bearer ${process.env.AUTH}`
   }
 
   try {

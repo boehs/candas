@@ -23,4 +23,4 @@ gitignore
 .DS_Store
 Thumbs.db
 
-.ENV
+.env

@@ -12,8 +12,10 @@
     "vite": "^3.1.8"
   },
   "dependencies": {
+    "@solid-primitives/context": "^0.1.2",
     "@solidjs/meta": "^0.28.0",
     "@solidjs/router": "^0.5.0",
+    "dotenv": "^16.0.3",
     "sass": "^1.56.1",
     "solid-js": "^1.6.0",
     "solid-start": "^0.2.0",
