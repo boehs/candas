@@ -16,13 +16,13 @@ export function routeData() {
 }
 
 
-export const pages = ["Announcements", "Assignments", "Modules", "Wiki"] as const
+export const pages = [["Announcements","n"], ["Assignments","a"], ["Modules","m"], ["Wiki","w"]] as const
 
-export const [mode,setMode] = createSignal<typeof pages[number]>(pages[0])
+export const [mode,setMode] = createSignal<typeof pages[number][number]>(pages[0][0])
 
 export default function Main() {
   const location = useLocation()
-  setMode(pages.find(v => location.pathname.includes(v.toLowerCase())))
+  setMode(pages.find(v => location.pathname.includes(v[0].toLowerCase()))[0])
   const navigate = useNavigate()
   const { courses } = useRouteData<typeof routeData>()
   
