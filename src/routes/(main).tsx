@@ -1,6 +1,6 @@
 import { createShortcut } from "@solid-primitives/keyboard";
 import { createSignal, For, Resource } from "solid-js";
-import { A, Outlet, useNavigate, useRouteData } from "solid-start";
+import { A, Outlet, useLocation, useNavigate, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import api from "~/lib/api";
 
@@ -20,10 +20,13 @@ export const pages = ["Announcements", "Assignments", "Modules", "Wiki"] as cons
 
 export const [mode,setMode] = createSignal<typeof pages[number]>(pages[0])
 
-export default function Main() {  
+export default function Main() {
+  const location = useLocation()
+  setMode(pages.find(v => location.pathname.includes(v.toLowerCase())))
+  const navigate = useNavigate()
   const { courses } = useRouteData<typeof routeData>()
   
-  if (courses()) courses().forEach((course,i) => createShortcut([`${i}`],() => useNavigate()(`/course/${course.id}/${mode()}`))) 
+  if (courses()) courses().forEach((course,i) => createShortcut([`${i}`],() => navigate(`/course/${course.id}/${mode()}`))) 
 
   return (<>
     <section class="sticky">
