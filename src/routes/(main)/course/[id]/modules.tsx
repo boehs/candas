@@ -15,7 +15,7 @@ export default function Modules() {
     return <>
         <For each={modules()}>
             {(module,i) => <details>
-                <summary onClick={() => setOpen(i())}>{module.name}</summary>
+                <summary>{module.name}</summary>
                 <table>
                     <tr>
                         <th>Title</th>

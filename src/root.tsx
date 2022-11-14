@@ -15,7 +15,8 @@ import {
 import "./root.scss";
 
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-dotenv.config()
+import { isServer } from "solid-js/web";
+if (isServer) dotenv.config()
 
 export default function Root() {
   return (

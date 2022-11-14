@@ -1,10 +1,14 @@
-import { For } from "solid-js";
-import { A, Outlet, useRouteData } from "solid-start";
+import { createShortcut } from "@solid-primitives/keyboard";
+import { createSignal, For, Resource } from "solid-js";
+import { A, Outlet, useNavigate, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import api from "~/lib/api";
 
 export function routeData() {
-  const courses = createServerData$(async () => await api('courses?enrollment_state=active'),{
+  const courses: Resource<[{
+    id: number
+    name: string
+  }]> = createServerData$(async () => await api('courses?enrollment_state=active'),{
     key: [false]
   })
 
@@ -14,14 +18,21 @@ export function routeData() {
 
 export const pages = ["Announcements", "Assignments", "Modules", "Wiki"] as const
 
-export default function Main() {
+export const [mode,setMode] = createSignal<typeof pages[number]>(pages[0])
+
+export default function Main() {  
   const { courses } = useRouteData<typeof routeData>()
+  
+  if (courses()) courses().forEach((course,i) => createShortcut([`${i}`],() => useNavigate()(`/course/${course.id}/${mode()}`))) 
 
   return (<>
     <section class="sticky">
       <ul>
         <For each={courses()}>
-          {(course,i) => <li><A style={{ color: `hsl(${(360/courses().length)*i()},50%,60%)` }} end={false} href={`/course/${course.id}/${"wiki"}`}>{course.name}</A></li>}
+          {(course,i) => <li>
+            <span style={{color: "gray"}}>{i()}</span>
+            <A style={{ color: `hsl(${(360/courses().length)*i()},50%,60%)` }} end={false} href={`/course/${course.id}/${mode().toLowerCase()}`}>{course.name}</A>
+          </li>}
         </For>
       </ul>
     </section>

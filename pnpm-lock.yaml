@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@solid-primitives/context': ^0.1.2
+  '@solid-primitives/keyboard': ^1.0.5
   '@solidjs/meta': ^0.28.0
   '@solidjs/router': ^0.5.0
   dotenv: ^16.0.3
@@ -15,6 +16,7 @@ specifiers:
 
 dependencies:
   '@solid-primitives/context': 0.1.2_solid-js@1.6.0
+  '@solid-primitives/keyboard': 1.0.5_solid-js@1.6.0
   '@solidjs/meta': 0.28.2_solid-js@1.6.0
   '@solidjs/router': 0.5.0_solid-js@1.6.0
   dotenv: 16.0.3
@@ -1288,6 +1290,43 @@ packages:
     resolution: {integrity: sha512-kYnP08rKHgZA7O9azK8Bqo7yzN+2Fh8PHsftsghSAN6MVbH0soTSaBz+Cwx7jsVOJ7X3FRNjTEGIlvq97vfGyw==}
     peerDependencies:
       solid-js: ^1.5.0
+    dependencies:
+      solid-js: 1.6.0
+    dev: false
+
+  /@solid-primitives/event-listener/2.2.4_solid-js@1.6.0:
+    resolution: {integrity: sha512-O/ppM0SpXWtNC7AHv1bQA9Dy6pj3NUM06MhSV9xwVv4N06PmlNYhGLDSPT1Esesm6b0fDgCXB5V+AgCSEzQd/w==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
+      '@solid-primitives/utils': 4.0.0_solid-js@1.6.0
+      solid-js: 1.6.0
+    dev: false
+
+  /@solid-primitives/keyboard/1.0.5_solid-js@1.6.0:
+    resolution: {integrity: sha512-rDgBRi/tKcsfGE5zM5JSStdGor0yL7X6idpbhwXRC9KUTQX1yCDtIf07uGugi9lmQYwCIriRetZT4UCLgn66EQ==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
+      '@solid-primitives/event-listener': 2.2.4_solid-js@1.6.0
+      '@solid-primitives/rootless': 1.2.1_solid-js@1.6.0
+      '@solid-primitives/utils': 4.0.0_solid-js@1.6.0
+      solid-js: 1.6.0
+    dev: false
+
+  /@solid-primitives/rootless/1.2.1_solid-js@1.6.0:
+    resolution: {integrity: sha512-8RpdyS1e58PQbDjgjpyCh+IGoX3QEs/2LauMfl94eXJ5d/o1y/c6P61z9XqQm+Bx1Otdgx4nbFCoF7HPqa0mwg==}
+    peerDependencies:
+      solid-js: ^1.6.0
+    dependencies:
+      '@solid-primitives/utils': 4.0.0_solid-js@1.6.0
+      solid-js: 1.6.0
+    dev: false
+
+  /@solid-primitives/utils/4.0.0_solid-js@1.6.0:
+    resolution: {integrity: sha512-fGsJy8Z8YiwogpiezD7TWjI62UCb0JAHJWdoXWGrggrn4bfToZotKkabiB0IVFMkWVE1ZcrkvZT3bkmqGnK0ng==}
+    peerDependencies:
+      solid-js: ^1.6.0
     dependencies:
       solid-js: 1.6.0
     dev: false

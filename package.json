@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@solid-primitives/context": "^0.1.2",
+    "@solid-primitives/keyboard": "^1.0.5",
     "@solidjs/meta": "^0.28.0",
     "@solidjs/router": "^0.5.0",
     "dotenv": "^16.0.3",

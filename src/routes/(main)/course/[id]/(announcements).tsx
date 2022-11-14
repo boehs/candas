@@ -1,6 +1,6 @@
 import { createContextProvider } from "@solid-primitives/context"
 import { Resource } from "solid-js"
-import { RouteDataArgs, useParams, useRouteData } from "solid-start"
+import { RouteDataArgs, useRouteData } from "solid-start"
 import { Outlet } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
