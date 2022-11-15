@@ -53,6 +53,7 @@ main {
 
 table {
   width: 100%;
+  border-spacing: 0px 2px;
   
   th {
     text-align: left;
@@ -112,7 +113,11 @@ h1 {
 }
 
 div {
-  > p:first-child {
+  > :first-child {
     margin-block-start: 0;
   }
+}
+
+figure {
+  margin: 0
 }

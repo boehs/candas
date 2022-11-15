@@ -27,7 +27,7 @@ function AssignmentTable(props: {
     assignments: assignment
 }) {
     return <Table headers={['Name', 'Possible', 'Due']}>
-        <For each={props.assignments.sort((a, b) => b.position - a.position)}>
+        <For each={props.assignments}>
             {assignment => <Tr goal={() => undefined} style={{
                 color: (() => {
                     if (new Date(assignment.due_at).getTime() > new Date().getTime()) return "green"
@@ -49,7 +49,7 @@ export default function Assignments() {
             {group => <Show when={group.assignments.length > 0}>
                 <details open>
                     <summary>{group.name}</summary>
-                    <AssignmentTable assignments={group.assignments} />
+                    <AssignmentTable assignments={group.assignments.sort((a, b) => new Date(b.due_at).getTime() - new Date(a.due_at).getTime())} />
                 </details>
             </Show>}
         </For>
