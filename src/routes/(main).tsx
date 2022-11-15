@@ -33,7 +33,7 @@ export default function Main() {
   return (<>
     <header>
       <h2>
-        Candas
+        <A end={true} href="/">Candas</A>
         <Show when={isRouting()}>
           <Spinner />
         </Show>
