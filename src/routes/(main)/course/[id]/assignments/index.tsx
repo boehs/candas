@@ -24,7 +24,6 @@ type assignment = {
 }[]
 
 export function routeData({ params }: RouteDataArgs) {
-    const assignments = "createServerData$(async () => await api(`courses/${useParams().id}/assignments`))"
     const assignmentsGroups: Resource<{
         node: {
             id: string
@@ -67,16 +66,17 @@ export function routeData({ params }: RouteDataArgs) {
     }).toPromise().then(res => res.data.course.assignmentGroupsConnection.edges), {
         key: () => [params.id]
     })
-    return { assignments, assignmentsGroups }
+    return { assignmentsGroups }
 }
 
 function AssignmentTable(props: {
     assignments: assignment
 }) {
     const navigate = useNavigate()
+    const params = useParams()
     
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
-        <Title>Assignments: {useParams().id}</Title>
+        <Title>Assignments: {params.id}</Title>
         <For each={props.assignments.map(ass => ass.node)}>
             {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
                 color: (() => {
