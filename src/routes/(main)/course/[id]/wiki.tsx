@@ -1,5 +1,5 @@
 import { Show, Suspense } from "solid-js"
-import { RouteDataArgs, useRouteData } from "solid-start"
+import { RouteDataArgs, Title, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 import wikiCss from './wiki.module.scss'
@@ -14,6 +14,7 @@ export function routeData({ params }: RouteDataArgs) {
 export default function Assignments() {
     const { wiki } = useRouteData<typeof routeData>()
     return <>
+        <Title>Wiki: Main</Title>
         <Suspense>
             <Show when={wiki() && wiki().body} fallback={<div>
                 <h1>Nothing here, but...</h1>

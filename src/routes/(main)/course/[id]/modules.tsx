@@ -1,5 +1,5 @@
 import { For } from "solid-js"
-import { RouteDataArgs, useRouteData } from "solid-start"
+import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
@@ -17,6 +17,7 @@ export default function Modules() {
     const { modules } = useRouteData<typeof routeData>()
 
     return <>
+        <Title>Modules: {useParams().id}</Title>
         <For each={modules()}>
             {module => <details>
                 <summary>{module.name}</summary>
