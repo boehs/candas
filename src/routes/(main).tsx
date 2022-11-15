@@ -1,6 +1,6 @@
 import { createShortcut } from "@solid-primitives/keyboard";
 import { createSignal, For, Resource, Show } from "solid-js";
-import { A, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
+import ErrorBoundary, { A, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import Spinner from "~/components/spinner";
 import api from "~/lib/api";
@@ -34,21 +34,23 @@ export default function Main() {
     <h2>
       Candas
       <Show when={isRouting()}>
-        <Spinner/>
+        <Spinner />
       </Show>
     </h2>
-    <div id="content">
-      <section class="sticky">
-        <ul>
-          <For each={courses()}>
-            {(course, i) => <li>
-              <span style={{ color: "gray" }}>{i()}&nbsp;</span>
-              <A style={{ color: `hsl(${(360 / courses().length) * i()},50%,60%)` }} end={false} href={`/course/${course.id}/${mode().toLowerCase()}`}>{course.name}</A>
-            </li>}
-          </For>
-        </ul>
-      </section>
-      <Outlet />
-    </div>
+    <ErrorBoundary>
+      <div id="content">
+        <section class="sticky">
+          <ul>
+            <For each={courses()}>
+              {(course, i) => <li>
+                <span style={{ color: "gray" }}>{i()}&nbsp;</span>
+                <A style={{ color: `hsl(${(360 / courses().length) * i()},50%,60%)` }} end={false} href={`/course/${course.id}/${mode().toLowerCase()}`}>{course.name}</A>
+              </li>}
+            </For>
+          </ul>
+        </section>
+        <Outlet />
+      </div>
+    </ErrorBoundary>
   </>);
 }
