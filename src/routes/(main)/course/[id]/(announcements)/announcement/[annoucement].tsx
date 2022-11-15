@@ -7,7 +7,7 @@ export default function AnnoucementView() {
     return <>
         <A href={`/course/${params.id}/announcements`}>Go back</A>
         <h1>{annoucement.title}</h1>
-        <i>{annoucement.posted_at}</i>
+        <i>{new Date(annoucement.posted_at).toLocaleString()}</i>
         <div innerHTML={annoucement.message}/>
     </>
 }

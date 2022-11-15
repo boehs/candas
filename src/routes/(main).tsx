@@ -31,12 +31,15 @@ export default function Main() {
   if (courses()) courses().forEach((course, i) => createShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode()}`)))
 
   return (<>
-    <h2>
-      Candas
-      <Show when={isRouting()}>
-        <Spinner />
-      </Show>
-    </h2>
+    <header>
+      <h2>
+        Candas
+        <Show when={isRouting()}>
+          <Spinner />
+        </Show>
+      </h2>
+      <sup>By 🏕️ Humanity</sup>
+    </header>
     <ErrorBoundary>
       <div id="content">
         <section class="sticky">
