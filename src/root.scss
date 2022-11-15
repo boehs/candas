@@ -128,3 +128,29 @@ hr {
   border-radius: 3px;
   margin: 20px 0;
 }
+
+iframe {
+  border: 2px solid var(--accent);
+}
+
+form {
+  > * {
+    display: block;
+  }
+  
+  input {
+    border: 2px solid var(--accent);
+    font-size: inherit;
+    margin-bottom: 20px;
+    padding: 10px;
+    
+    &:active {
+      border: 2px solid var(--accent);
+    }
+    
+    &[type="submit"] {
+      background-color: var(--accent);
+      color: white;
+    }
+  }
+}

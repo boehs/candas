@@ -12,9 +12,9 @@ export default function Home() {
     <h2>Known Bugs</h2>
     <ul>
       <li>Cold starts result in no table content rendering</li>
-      <li>Can't Preview Assignments</li>
       <li>If date is unset, falls back to unix timestamp</li>
-      <li>Grade not visible</li>
+      <li>Can't submit from assignments</li>
+      <li>Modules and Announcements not using gql</li>
     </ul>
   </main>
 }
