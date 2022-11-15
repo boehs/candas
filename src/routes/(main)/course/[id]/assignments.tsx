@@ -3,21 +3,67 @@ import { RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
-import api from "~/lib/api"
+import gclc from "~/lib/gql"
 
-type assignment = [{
-    due_at: string,
-    name: string,
-    points_possible: number,
-    position: number
-}]
+type assignment = {
+    node: {
+        id: string
+        name: string
+        pointsPossible: number
+        dueAt: string
+        submissionsConnection: {
+            nodes?: [
+                {
+                    grade: string
+                    missing: boolean
+                }
+            ]
+        }
+    }
+}[]
 
 export function routeData({ params }: RouteDataArgs) {
     const assignments = "createServerData$(async () => await api(`courses/${useParams().id}/assignments`))"
-    const assignmentsGroups: Resource<[{
-        name: string,
-        assignments: assignment
-    }]> = createServerData$(async ([id]) => await api(`courses/${id}/assignment_groups?include[]=assignments`), {
+    const assignmentsGroups: Resource<{
+        node: {
+            id: string
+            name: string
+            position: number
+            assignmentsConnection: {
+                edges: assignment
+            }
+        }
+    }[]> = createServerData$(async ([id]) => await gclc.query(`query($id: ID!) {
+        course(id: $id) {
+          assignmentGroupsConnection {
+            edges {
+              node {
+                id
+                name
+                position
+                assignmentsConnection {
+                  edges {
+                    node {
+                      id
+                      name
+                      pointsPossible
+                      dueAt
+                      submissionsConnection {
+                        nodes {
+                          grade
+                          missing
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`, {
+        id: Number(id)
+    }).toPromise().then(res => res.data.course.assignmentGroupsConnection.edges), {
         key: () => [params.id]
     })
     return { assignments, assignmentsGroups }
@@ -26,16 +72,27 @@ export function routeData({ params }: RouteDataArgs) {
 function AssignmentTable(props: {
     assignments: assignment
 }) {
-    return <Table headers={['Name', 'Possible', 'Due']}>
-        <For each={props.assignments}>
+    return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
+        <For each={props.assignments.map(ass => ass.node)}>
             {assignment => <Tr goal={() => undefined} style={{
                 color: (() => {
-                    if (new Date(assignment.due_at).getTime() > new Date().getTime()) return "green"
+                    if (assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0] && assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0].missing == true) return "red"
+                    else if (new Date(assignment.dueAt).getTime() > new Date().getTime()) return "green"
                 })()
             }}>
                 <td>{assignment.name}</td>
-                <td>{assignment.points_possible}</td>
-                <td>{(new Date(assignment.due_at)).toLocaleDateString()}</td>
+                <td>
+                    <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
+                        {assignment.submissionsConnection.nodes[0].grade}
+                    </Show>
+                </td>
+                <td>{assignment.pointsPossible}</td>
+                <td>
+                    <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
+                        {(Number(assignment.submissionsConnection.nodes[0].grade)/assignment.pointsPossible)*100}%
+                    </Show>
+                </td>
+                <td>{(new Date(assignment.dueAt)).toLocaleDateString()}</td>
             </Tr>}
         </For>
     </Table>
@@ -43,13 +100,12 @@ function AssignmentTable(props: {
 
 export default function Assignments() {
     const { assignmentsGroups } = useRouteData<typeof routeData>()
-
     return <>
         <For each={assignmentsGroups()}>
-            {group => <Show when={group.assignments.length > 0}>
+            {group => <Show when={group.node.assignmentsConnection.edges.length > 0}>
                 <details open>
-                    <summary>{group.name}</summary>
-                    <AssignmentTable assignments={group.assignments.sort((a, b) => new Date(b.due_at).getTime() - new Date(a.due_at).getTime())} />
+                    <summary>{group.node.name}</summary>
+                    <AssignmentTable assignments={group.node.assignmentsConnection.edges.sort((a, b) => new Date(b.node.dueAt).getTime() - new Date(a.node.dueAt).getTime())} />
                 </details>
             </Show>}
         </For>

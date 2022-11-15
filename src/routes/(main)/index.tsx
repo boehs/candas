@@ -15,7 +15,6 @@ export default function Home() {
       <li>Can't Preview Assignments</li>
       <li>If date is unset, falls back to unix timestamp</li>
       <li>Grade not visible</li>
-      <li>Assignments not cached, take a long time to load (canvas api)</li>
     </ul>
   </main>
 }
