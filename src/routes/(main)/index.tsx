@@ -9,5 +9,12 @@ export default function Home() {
       <br/>
       For now, click on one of your classes (or, if you are feeling adventurous, hit a number!), and explore the new world
     </p>
+    <h2>Known Bugs</h2>
+    <ul>
+      <li>Cold starts result in no table content rendering</li>
+      <li>Can't Preview Assignments</li>
+      <li>If date is unset, falls back to unix timestamp</li>
+      <li>Grade not visible</li>
+    </ul>
   </main>
 }
