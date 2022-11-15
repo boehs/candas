@@ -1,24 +1,26 @@
 import { createShortcut } from "@solid-primitives/keyboard";
-import { createSignal, onCleanup } from "solid-js";
+import { createEffect, createSignal, onCleanup } from "solid-js";
 
-const [active,setActive] = createSignal(0)
+const [active, setActive] = createSignal(0)
+let goal;
+createShortcut(['ArrowDown'], () => setActive(active() + 1))
+createShortcut(['ArrowUp'], () => setActive(active() - 1))
 let trs = []
 export default function Tr(props: {
     children: any
+    goal: () => void
 }) {
     const i = trs[trs.length - 1] + 1 || 0
-    const l = trs.push(i)
-    
+    trs.push(i)
+
     onCleanup(() => {
         trs = trs.filter(e => e != i)
     })
-    
-    if (active() == i) {
-        createShortcut(['ArrowDown'],() => setActive(trs[l+1]))
-        createShortcut(['ArrowUp'],() => setActive(trs[l-1]))
-    }
-    
-    return <tr class={`${active() == 0 ? 'focused' : ''}`}>
+    createEffect(() => {
+        if (trs[active()] == i) createShortcut(['Enter'], () => props.goal())
+    })
+
+    return <tr class={`${trs[active()] == i ? 'focused' : ''}`}>
         {props.children}
     </tr>
 }
