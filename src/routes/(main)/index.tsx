@@ -15,6 +15,7 @@ export default function Home() {
       <li>If date is unset, falls back to unix timestamp</li>
       <li>Can't submit from assignments</li>
       <li>Modules and Announcements not using gql</li>
+      <li>More <i>view in Canvas</i> buttons</li>
     </ul>
   </main>
 }

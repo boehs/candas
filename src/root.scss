@@ -92,6 +92,10 @@ header {
   sup {
     color: gray;
     font-size: 12px;
+    
+    a {
+      color: inherit;
+    }
   }
 }
 
@@ -153,4 +157,16 @@ form {
       color: white;
     }
   }
+}
+
+#lp {
+  display: block;
+  position: fixed;
+  bottom: 0.8em;
+  right: 0.8em
+}
+
+.tiny {
+  color: gray;
+  font-size: 12px;
 }

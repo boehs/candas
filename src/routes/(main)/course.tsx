@@ -7,7 +7,7 @@ export default function Course() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const prefix = () => location.pathname.replace(new RegExp(`\/(${pages.map(page => page[0].toLowerCase()).join('|')}).*`),'')
+    const prefix = () => location.pathname.replace(new RegExp(`\/(${pages.map(page => page[0].toLowerCase()).join('|')}).*`), '')
     console.log(prefix())
     const path = (page) => `${prefix()}/${page[0].toLowerCase()}`
     pages.forEach((page) => {

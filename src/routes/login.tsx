@@ -23,11 +23,12 @@ export default function Login() {
             </section>
             <main>
                 <form>
-                    <label for="key">API Key</label>
-                    <input name="key" placeholder="1000~Jpn1yS3CylIMMJNFzNjbn1EuNg08IsYolPEspu6O2cGbaSBoMaAtgBhhjN8ZozC0"/>
                     <label for="instance">Instance</label>
-                    <input name="instance" placeholder="brookline.instructure.com"/>
-                    <input type="submit" value="Login to Candas"/>
+                    <input name="instance" placeholder="brookline.instructure.com" />
+                    <label for="key">API Key</label>
+                    <input name="key" placeholder="1000~Jpn1yS3CylIMMJNFzNjbn1EuNg08IsYolPEspu6O2cGbaSBoMaAtgBhhjN8ZozC0" />
+                    <input type="submit" value="Login to Candas" />
+
                 </form>
             </main>
         </div>
