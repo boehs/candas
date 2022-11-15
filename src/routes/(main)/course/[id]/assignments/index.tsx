@@ -1,6 +1,6 @@
-import { useNavigate } from "@solidjs/router"
+import { useNavigate, useParams } from "@solidjs/router"
 import { For, Resource, Show } from "solid-js"
-import { A, RouteDataArgs, useRouteData } from "solid-start"
+import { A, RouteDataArgs, Title, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
@@ -76,6 +76,7 @@ function AssignmentTable(props: {
     const navigate = useNavigate()
     
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
+        <Title>Assignments: {useParams().id}</Title>
         <For each={props.assignments.map(ass => ass.node)}>
             {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
                 color: (() => {

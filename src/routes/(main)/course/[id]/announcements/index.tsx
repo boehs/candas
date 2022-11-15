@@ -1,6 +1,6 @@
-import { useNavigate } from "@solidjs/router"
+import { useNavigate, useParams } from "@solidjs/router"
 import { For } from "solid-js"
-import { A } from "solid-start"
+import { A, Title } from "solid-start"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
 import { useAnnouncements } from "../announcements"
@@ -10,6 +10,7 @@ export default function Announcements() {
     const announcements = useAnnouncements()
 
     return <Table headers={['Title', 'Date']}>
+        <Title>Announcements: {useParams().id}</Title>
         <For each={announcements()}>
             {announcement => <Tr goal={() => navigate(`../announcements/${announcement.id}`)}>
                 <td><A href={`../announcements/${announcement.id}`}>{announcement.title}</A></td>

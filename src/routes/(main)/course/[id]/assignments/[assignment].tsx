@@ -1,6 +1,6 @@
 import { createShortcut } from "@solid-primitives/keyboard";
-import { Resource, Show, Suspense } from "solid-js";
-import { A, RouteDataArgs, useNavigate, useParams, useRouteData } from "solid-start";
+import { Resource, Show } from "solid-js";
+import { A, RouteDataArgs, Title, useNavigate, useParams, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import gclc from "~/lib/gql";
 
@@ -49,6 +49,7 @@ export default function AnnoucementView() {
             <A end={true} href={`/course/${params.id}/assignments`}>Go back</A>
         </span>
         <Show when={assignment()}>
+            <Title>{assignment().name}</Title>
             <h1>{assignment().name}</h1>
             <ul>
                 <li>due: {new Date(assignment().dueAt).toLocaleString()}</li>

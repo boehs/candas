@@ -1,6 +1,6 @@
 import { createShortcut } from "@solid-primitives/keyboard";
 import { useNavigate } from "@solidjs/router";
-import { A, useParams } from "solid-start";
+import { A, Title, useParams } from "solid-start";
 import { useAnnouncements } from "../announcements";
 
 export default function AnnoucementView() {
@@ -10,6 +10,7 @@ export default function AnnoucementView() {
     
     createShortcut(['b'],() => navigate('../'))
     return <>
+        <Title>{annoucement.title}</Title>
         <span>
             <span class="secondary">b</span>
             <A end={true} href={`/course/${params.id}/announcements`}>Go back</A>
