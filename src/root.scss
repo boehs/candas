@@ -34,6 +34,11 @@ body {
 div#content {
   display: flex;
   gap: 20px;
+  max-width: 100%;
+  
+  > * {
+    flex-shrink: 0;
+  }
 }
 
 ul {
@@ -103,5 +108,11 @@ h1 {
   
   &::after {
     content: ' ';
+  }
+}
+
+div {
+  > p:first-child {
+    margin-block-start: 0;
   }
 }

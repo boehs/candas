@@ -4,7 +4,7 @@ export default function Home() {
   return <main>
     <Title>Home</Title>
     <h1>Home</h1>
-    <p>Hey 👋, welcome to the Candas beta!</p>
+    <p>Hello there 👋, welcome to the Candas beta!</p>
     <p>Eventually, you will find a feed of all your upcoming assignments right here.
       <br/>
       For now, click on one of your classes (or, if you are feeling adventurous, hit a number!), and explore the new world
@@ -15,6 +15,7 @@ export default function Home() {
       <li>Can't Preview Assignments</li>
       <li>If date is unset, falls back to unix timestamp</li>
       <li>Grade not visible</li>
+      <li>Assignments not cached, take a long time to load (canvas api)</li>
     </ul>
   </main>
 }
