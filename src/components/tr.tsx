@@ -2,8 +2,8 @@ import { createShortcut } from "@solid-primitives/keyboard";
 import { createEffect, createSignal, onCleanup } from "solid-js";
 
 const [active, setActive] = createSignal(0)
-createShortcut(['ArrowDown'], () => setActive(active() + 1))
-createShortcut(['ArrowUp'], () => setActive(active() - 1))
+createShortcut(['ArrowDown'], () => setActive(active() + 1 >= trs.length ? active() : active() + 1))
+createShortcut(['ArrowUp'], () => setActive(active() - 1 < 0 ? active() : active() - 1))
 let trs = []
 export default function Tr(props: {
     children: any
