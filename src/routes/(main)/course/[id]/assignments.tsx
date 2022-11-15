@@ -2,6 +2,7 @@ import { For, Resource, Show } from "solid-js"
 import { RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
+import Tr from "~/components/tr"
 import api from "~/lib/api"
 
 type assignment = [{
@@ -27,7 +28,7 @@ function AssignmentTable(props: {
 }) {
     return <Table headers={['Name', 'Possible', 'Due']}>
         <For each={props.assignments.sort((a, b) => b.position - a.position)}>
-            {assignment => <tr style={{
+            {assignment => <Tr goal={() => undefined} style={{
                 color: (() => {
                     if (new Date(assignment.due_at).getTime() > new Date().getTime()) return "green"
                 })()
@@ -35,7 +36,7 @@ function AssignmentTable(props: {
                 <td>{assignment.name}</td>
                 <td>{assignment.points_possible}</td>
                 <td>{(new Date(assignment.due_at)).toLocaleDateString()}</td>
-            </tr>}
+            </Tr>}
         </For>
     </Table>
 }

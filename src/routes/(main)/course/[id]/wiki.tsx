@@ -1,5 +1,5 @@
 import { Suspense } from "solid-js"
-import { RouteDataArgs, useParams, useRouteData } from "solid-start"
+import { RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 

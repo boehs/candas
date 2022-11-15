@@ -2,6 +2,7 @@ import { For } from "solid-js"
 import { RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
+import Tr from "~/components/tr"
 import api from "~/lib/api"
 
 export function routeData({ params }: RouteDataArgs) {
@@ -21,13 +22,13 @@ export default function Modules() {
                 <summary>{module.name}</summary>
                 <Table headers={['Title', 'Type']}>
                     <For each={module.items}>
-                        {item => <tr>
+                        {item => <Tr goal={() => undefined}>
                             <td style={{
                                 "display": "inline-block",
                                 "margin-left": `${item.indent * 30}px`
                             }}>{item.title}</td>
                             <td>{item.type}</td>
-                        </tr>}
+                        </Tr>}
                     </For>
                 </Table>
             </details>}
