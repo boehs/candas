@@ -25,10 +25,13 @@ export default function Main() {
   const location = useLocation()
   const navigate = useNavigate()
   const isRouting = useIsRouting()
-  setMode(pages.find(v => location.pathname.includes(v[0].toLowerCase()))[0])
+  
+  const search = pages.find(v => location.pathname.includes(v[0].toLowerCase()))
+  setMode(search ? search[0] : pages[0][0])
+
   const { courses } = useRouteData<typeof routeData>()
 
-  if (courses()) courses().forEach((course, i) => createShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode()}`)))
+  if (courses()) courses().forEach((course, i) => createShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode().toLowerCase()}`)))
 
   return (<>
     <header>
