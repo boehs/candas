@@ -11,7 +11,7 @@ export default function Table(props: {
             </For>
         </thead>
         <tbody>
-            <props.children/>
+            {props.children}
         </tbody>
     </table>
 }

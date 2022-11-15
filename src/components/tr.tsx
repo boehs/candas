@@ -3,7 +3,7 @@ import { createSignal, onCleanup } from "solid-js";
 
 const [active,setActive] = createSignal(0)
 let trs = []
-export function TrWrapper(props: {
+export default function Tr(props: {
     children: any
 }) {
     const i = trs[trs.length - 1] + 1 || 0
@@ -19,6 +19,6 @@ export function TrWrapper(props: {
     }
     
     return <tr class={`${active() == 0 ? 'focused' : ''}`}>
-        <props.children/>
+        {props.children}
     </tr>
 }
