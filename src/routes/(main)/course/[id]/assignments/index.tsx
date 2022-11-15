@@ -1,5 +1,6 @@
+import { useNavigate } from "@solidjs/router"
 import { For, Resource, Show } from "solid-js"
-import { RouteDataArgs, useRouteData } from "solid-start"
+import { A, RouteDataArgs, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
@@ -72,15 +73,17 @@ export function routeData({ params }: RouteDataArgs) {
 function AssignmentTable(props: {
     assignments: assignment
 }) {
+    const navigate = useNavigate()
+    
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
         <For each={props.assignments.map(ass => ass.node)}>
-            {assignment => <Tr goal={() => undefined} style={{
+            {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
                 color: (() => {
                     if (assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0] && assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0].missing == true) return "red"
                     else if (new Date(assignment.dueAt).getTime() > new Date().getTime()) return "green"
                 })()
             }}>
-                <td>{assignment.name}</td>
+                <td><A href={`../assignments/${assignment.id}`}>{assignment.name}</A></td>
                 <td>
                     <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
                         {assignment.submissionsConnection.nodes[0].grade}
