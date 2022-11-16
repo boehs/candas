@@ -8,9 +8,10 @@ import { useAnnouncements } from "../announcements"
 export default function Announcements() {
     const navigate = useNavigate()
     const announcements = useAnnouncements()
+    const params = useParams()
 
     return <Table headers={['Title', 'Date']}>
-        <Title>Announcements: {useParams().id}</Title>
+        <Title>Announcements: {params.id}</Title>
         <For each={announcements()}>
             {announcement => <Tr goal={() => navigate(`../announcements/${announcement.id}`)}>
                 <td><A href={`../announcements/${announcement.id}`}>{announcement.title}</A></td>
