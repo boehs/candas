@@ -1,4 +1,5 @@
-import { For, Match, Switch } from "solid-js"
+import { A, useNavigate } from "@solidjs/router"
+import { For, Show } from "solid-js"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
@@ -12,58 +13,68 @@ export function routeData({ params }: RouteDataArgs) {
     return { modules }
 }
 
-function ResolveUrl(props: { item: {
-    type: 'ExternalUrl' | 'ExternalTool'
-    external_url: string
-    title: string
-    
-} | {
-    type: 'Assignment' | 'Discussion'
-    content_id: number
-    title: string
-} | {
-    type: string
-    html_url: string
-    title: string
-}}) {
-    const item = props.item
-    
-    // @ts-expect-error
-    return <Switch fallback={<a href={item.html_url}>{item.title}</a>}>
-        <Match when={['ExternalUrl', 'ExternalTool'].includes(item.type)}>
-            {/*@ts-expect-error*/}
-            <a href={item.external_url}>{item.title}</a>
-        </Match>
-        {/* This doesn't work because of gql ids vs legacy
-        <Match when={'Assignment' == item.type }>
-            {/*@ts-expect-error*/}{/*
-            <a href={`assignments/${item.content_id}`}>{item.title}</a>
-</Match>*/}
-        <Match when={'Discussion' == item.type }>
-            {/*@ts-expect-error*/}
-            <a href={`/announcements/${item.content_id}`}>{item.title}</a>
-        </Match>
-    </Switch>
+type urls = {
+    item: {
+        type: 'ExternalUrl' | 'ExternalTool'
+        external_url: string
+        title: string
+
+    } | {
+        type: 'Assignment' | 'Discussion'
+        content_id: number
+        title: string
+    }
+}
+
+function resolveUrl(props: urls) {
+    if (!props.item) return ''
+    switch (props.item.type) {
+        case 'ExternalTool' || 'ExternalUrl': return props.item.external_url
+        // This doesn't work because of gql ids vs legacy
+        // case 'Assignment': return `assignments/${props.item.content_id}`
+        case 'Discussion': return `announcements/${props.item.content_id}`
+        // @ts-expect-error
+        default: return props.item.html_url
+    }
+}
+
+function ResolveUrl(props: urls) {
+    return <Show when={['Discussion'/*,'Assignment'*/].includes(props.item.type)} fallback={
+        <a href={resolveUrl(props)}>{props.item.title}</a>
+    }>
+        <A href={resolveUrl(props)}>{props.item.title}</A>
+    </Show>
 }
 
 
 
 export default function Modules() {
     const { modules } = useRouteData<typeof routeData>()
+    const navigate = useNavigate()
+    const navigateShim = (location: string) => {
+        try {
+            navigate(location)
+        } catch {
+            window.location.replace(location)
+        }
+    }
     const params = useParams()
 
     return <>
         <Title>Modules: {params.id}</Title>
         <For each={modules()}>
-            {module => <details open>
+            {module => <details open={module.state != 'completed'}>
                 <summary>{module.name}</summary>
                 <Table headers={['Title', 'Type']}>
                     <For each={module.items}>
-                        {item => <Tr goal={() => undefined}>
+                        {item => <Tr goal={() => navigateShim(resolveUrl({
+                            // @ts-expect-error
+                                item: item
+                            }))}>
                             <td style={{
                                 "display": "inline-block",
                                 "margin-left": `${item.indent * 30}px`
-                            }}><ResolveUrl item={item}/></td>
+                            }}><ResolveUrl item={item} /></td>
                             <td>{item.type}</td>
                         </Tr>}
                     </For>
