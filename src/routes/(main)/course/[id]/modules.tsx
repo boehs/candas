@@ -32,7 +32,7 @@ export function routeData({ params }: RouteDataArgs) {
                 content {
                   ... on Page {
                     __typename
-                    id
+                    id: _id
                     title
                   }
                   ... on Assignment { 
@@ -95,7 +95,8 @@ export function routeData({ params }: RouteDataArgs) {
 const maps = {
     internal: {
         'Assignment': 'assignments',
-        'Discussion': 'announcements'
+        'Discussion': 'announcements',
+        'Page': 'wiki'
     },
     // TODO: Quiz, Page
     external: {
