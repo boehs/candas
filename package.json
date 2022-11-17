@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
-    "start": "solid-start start"
+    "start": "solid-start start",
+    "codegen": "NODE_OPTIONS=\"--input-type=commonjs\" graphql-codegen-esm --config ./codegen.ts --watch"
   },
   "type": "module",
   "devDependencies": {
@@ -12,6 +13,8 @@
     "vite": "^3.1.8"
   },
   "dependencies": {
+    "@graphql-codegen/cli": "^2.13.12",
+    "@graphql-codegen/client-preset": "^1.1.4",
     "@solid-primitives/context": "^0.1.2",
     "@solid-primitives/keyboard": "^1.0.5",
     "@solidjs/meta": "^0.28.0",
@@ -22,6 +25,7 @@
     "sass": "^1.56.1",
     "solid-js": "^1.6.0",
     "solid-start": "^0.2.0",
+    "ts-node": "^10.9.1",
     "undici": "^5.11.0"
   },
   "engines": {

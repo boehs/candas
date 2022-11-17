@@ -4,8 +4,8 @@ A fast frontend for Canvas that covers about 90% of common usecases in ~50% less
 
 ## Todo
 
-- Show grades in assignments
-- assignment page (with submission on client)
-- module page
-- annoucement page
-- keep page type between courses
+See homepage
+
+## Development
+
+This project is generally instance agonostic, HOWEVER schema generation requires a `.env` with two fields, `ENDPOINT` (myurl.instructure.com) and `AUTH` (your token)
