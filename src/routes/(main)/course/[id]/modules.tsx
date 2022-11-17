@@ -1,52 +1,134 @@
 import { A, useNavigate } from "@solidjs/router"
-import { For, Show } from "solid-js"
+import { For, Match, Resource, Show, Switch } from "solid-js"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
-import api from "~/lib/api"
+import gclc from "~/lib/gql"
+
+type Module = {
+    createdAt: string
+    content: {
+        __typename: string
+        id?: string
+        url?: string
+        title: string
+    }
+}
+
+type ModuleList = {
+    name: string
+    items: Module[]
+}[]
 
 export function routeData({ params }: RouteDataArgs) {
-    const modules = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`), {
+    const modules: Resource<ModuleList> = createServerData$(async ([id]) => await gclc.query(`query ($id: ID) {
+        course(id: $id) {
+          modulesConnection {
+            nodes {
+              name
+              items: moduleItems {
+                createdAt
+                content {
+                  ... on Page {
+                    __typename
+                    id
+                    title
+                  }
+                  ... on Assignment { 
+                    __typename
+                    id
+                    title: name
+                  }
+                  ... on Discussion {
+                    __typename
+                    id
+                    title
+                  }
+                  ... on Quiz {
+                    __typename
+                    id
+                    modules {
+                      name
+                    }
+                  }
+                  ... on ExternalUrl {
+                    __typename
+                    _url: url
+                    title
+                  }
+                  ... on ExternalTool {
+                    __typename
+                    url
+                    title: name
+                  }
+                  ... on File {
+                    __typename
+                    url
+                  }
+                  ... on SubHeader {
+                    title
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`,{
+        id: id
+      }).toPromise().then(res => {
+        const data = res.data.course.modulesConnection.nodes
+        return data.map(node => {
+            node.items = node.items.map(item => {
+                if (item.content._url) item.content.url = item.content._url
+                if (item.modules) item.title = item.modules.name
+                return item
+            })
+            return node
+        })
+      }), {
         key: () => [params.id]
     })
     return { modules }
 }
 
-type urls = {
-    item: {
-        type: 'ExternalUrl' | 'ExternalTool'
-        external_url: string
-        title: string
-
-    } | {
-        type: 'Assignment' | 'Discussion'
-        content_id: number
-        title: string
+const maps = {
+    internal: {
+        'Assignment': 'assignments',
+        'Discussion': 'announcements'
+    },
+    // TODO: Quiz, Page
+    external: {
+        
     }
 }
 
-function resolveUrl(props: urls) {
-    if (!props.item) return ''
-    switch (props.item.type) {
-        case 'ExternalTool' || 'ExternalUrl': return props.item.external_url
-        // This doesn't work because of gql ids vs legacy
-        // case 'Assignment': return `assignments/${props.item.content_id}`
-        case 'Discussion': return `announcements/${props.item.content_id}`
-        // @ts-expect-error
-        default: return props.item.html_url
-    }
+function resolveUrl(mod: Module): ['A' | 'a', string] | null {
+    if (mod.content.id && maps.internal[mod.content.__typename])
+        return ['A',`../${maps.internal[mod.content.__typename]}/${mod.content.id}`]
+    if (maps.external[mod.content.__typename])
+        return ['a',maps.external[mod.content.__typename](mod)]
+    if (mod.content.url)
+        return ['a',mod.content.url]
+    return null
 }
 
-function ResolveUrl(props: urls) {
-    return <Show when={['Discussion'/*,'Assignment'*/].includes(props.item.type)} fallback={
-        <a href={resolveUrl(props)}>{props.item.title}</a>
-    }>
-        <A href={resolveUrl(props)}>{props.item.title}</A>
-    </Show>
+function ResolveUrl(props: {
+    item: Module
+}) {
+    const resolved = resolveUrl(props.item)
+    return <Switch>
+        <Match when={!resolved}>
+            {props.item.content.title}
+        </Match>
+        <Match when={resolved[0] == 'A'}>
+            <A href={resolved[1]}>{props.item.content.title}s</A>
+        </Match>
+        <Match when={resolved[0] == 'a'}>
+            <a href={resolved[1]}>{props.item.content.title}</a>
+        </Match>
+    </Switch>
 }
-
-
 
 export default function Modules() {
     const { modules } = useRouteData<typeof routeData>()
@@ -63,19 +145,23 @@ export default function Modules() {
     return <>
         <Title>Modules: {params.id}</Title>
         <For each={modules()}>
-            {module => <details open={module.state != 'completed'}>
+            {module => <details open>
                 <summary>{module.name}</summary>
-                <Table headers={['Title', 'Type']}>
+                <Table headers={['Title', 'Created At', 'Type']}>
                     <For each={module.items}>
-                        {item => <Tr goal={() => navigateShim(resolveUrl({
-                            // @ts-expect-error
-                                item: item
-                            }))}>
-                            <td style={{
+                        {item => <Tr goal={() => navigateShim(resolveUrl(item)[1])}>
+                            <td /*style={{
                                 "display": "inline-block",
                                 "margin-left": `${item.indent * 30}px`
-                            }}><ResolveUrl item={item} /></td>
-                            <td>{item.type}</td>
+                            }}*/>
+                                <Show when={item.content.__typename == 'SubHeader'} fallback={
+                                    <ResolveUrl item={item} />
+                                }>
+                                    <h3><ResolveUrl item={item} /></h3>
+                                </Show>
+                            </td>
+                            <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                            <td>{item.content.__typename}</td>
                         </Tr>}
                     </For>
                 </Table>
