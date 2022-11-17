@@ -52,22 +52,26 @@ main {
 
 table {
   width: 100%;
-  border-spacing: 0px 2px;
-  
+  border-spacing: 0px;
+
   th {
     text-align: left;
+    padding: 0px 10px;
   }
 
   tr {
     &:nth-child(2n) {
       background-color: #e9eef0;
     }
-    
     border-radius: 3px;
   }
   
   td {
-    padding: 10px;
+    padding: 10px 10px;
+    
+    &:first-child {
+      width: 99%;
+    }
   }
 }
 
