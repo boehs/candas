@@ -47,7 +47,7 @@ export function routeData({ params }: RouteDataArgs) {
                   }
                   ... on Quiz {
                     __typename
-                    id
+                    id: _id
                     modules {
                       name
                     }
@@ -81,7 +81,9 @@ export function routeData({ params }: RouteDataArgs) {
         return data.map(node => {
             node.items = node.items.map(item => {
                 if (item.content._url) item.content.url = item.content._url
-                if (item.modules) item.title = item.modules.name
+                if (item.content.modules) {
+                  item.content.title = item.content.modules[0].name
+                }
                 return item
             })
             return node
@@ -98,17 +100,16 @@ const maps = {
         'Discussion': 'announcements',
         'Page': 'wiki'
     },
-    // TODO: Quiz, Page
     external: {
-        
+        'Quiz': (mod: Module, course: any) => `https://${process.env.ENDPOINT}/courses/${course}/quizzes/${mod.content.id}`
     }
 }
 
-function resolveUrl(mod: Module): ['A' | 'a', string] | null {
+function resolveUrl(mod: Module, course: any): ['A' | 'a', string] | null {
     if (mod.content.id && maps.internal[mod.content.__typename])
         return ['A',`../${maps.internal[mod.content.__typename]}/${mod.content.id}`]
     if (maps.external[mod.content.__typename])
-        return ['a',maps.external[mod.content.__typename](mod)]
+        return ['a',maps.external[mod.content.__typename](mod,course)]
     if (mod.content.url)
         return ['a',mod.content.url]
     return null
@@ -116,8 +117,9 @@ function resolveUrl(mod: Module): ['A' | 'a', string] | null {
 
 function ResolveUrl(props: {
     item: Module
+    course: any
 }) {
-    const resolved = resolveUrl(props.item)
+    const resolved = resolveUrl(props.item, props.course)
     return <Switch>
         <Match when={!resolved}>
             {props.item.content.title}
@@ -126,7 +128,7 @@ function ResolveUrl(props: {
             <A href={resolved[1]}>{props.item.content.title}s</A>
         </Match>
         <Match when={resolved[0] == 'a'}>
-            <a href={resolved[1]}>{props.item.content.title}</a>
+            <i><a href={resolved[1]}>{props.item.content.title}</a></i>
         </Match>
     </Switch>
 }
@@ -142,7 +144,6 @@ export default function Modules() {
         }
     }
     const params = useParams()
-
     return <>
         <Title>Modules: {params.id}</Title>
         <For each={modules()}>
@@ -150,15 +151,15 @@ export default function Modules() {
                 <summary>{module.name}</summary>
                 <Table headers={['Title', 'Created At', 'Type']}>
                     <For each={module.items}>
-                        {item => <Tr goal={() => navigateShim(resolveUrl(item)[1])}>
+                        {item => <Tr goal={() => navigateShim(resolveUrl(item,params.id)[1])}>
                             <td /*style={{
                                 "display": "inline-block",
                                 "margin-left": `${item.indent * 30}px`
                             }}*/>
                                 <Show when={item.content.__typename == 'SubHeader'} fallback={
-                                    <ResolveUrl item={item} />
+                                    <ResolveUrl item={item} course={params.id} />
                                 }>
-                                    <h3><ResolveUrl item={item} /></h3>
+                                    <h3><ResolveUrl item={item} course={params.id} /></h3>
                                 </Show>
                             </td>
                             <td>{new Date(item.createdAt).toLocaleDateString()}</td>
