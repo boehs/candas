@@ -5,6 +5,7 @@ import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
 import gclc from "~/lib/gql"
+import { camelToTitle } from "~/lib/helpers"
 
 type Module = {
     createdAt: string
@@ -163,7 +164,7 @@ export default function Modules() {
                                 </Show>
                             </td>
                             <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                            <td>{item.content.__typename}</td>
+                            <td>{camelToTitle(item.content.__typename)}</td>
                         </Tr>}
                     </For>
                 </Table>
