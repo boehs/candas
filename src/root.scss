@@ -63,15 +63,38 @@ table {
     &:nth-child(2n) {
       background-color: #e9eef0;
     }
-    border-radius: 3px;
   }
   
   td {
-    padding: 10px 10px;
+    border-radius: 0;
     
     &:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+    
+    &:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+    
+    padding: 10px 10px;
+    
+    &:has(a) {
+      padding: 0 0;
+      
+      a {
+        display: block;
+        padding: 10px 10px;
+      }
+    }
+    
+    &:first-child {
+      white-space: normal;
       width: 99%;
     }
+    
+    white-space: nowrap;
   }
 }
 
@@ -82,7 +105,20 @@ table {
 }
 
 details {
-  padding: 10px;
+  border: 2px solid var(--accent);
+  //padding: 10px;
+  margin-block: 10px;
+
+  summary {
+    border-bottom: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  > *:not(summary) {
+    padding: 10px;
+    padding-top: 0;
+  }
 }
 
 header {
@@ -109,6 +145,11 @@ h1 {
 .focused {
   background-color: #e8efe8 !important;
   text-decoration: underline;
+  color: #878b87 !important;
+  
+  * {
+    color: #878b87 !important;
+  }
 }
 
 .secondary {
