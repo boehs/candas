@@ -34,8 +34,11 @@ div#content {
   display: flex;
   gap: 20px;
   max-width: 100%;
+  flex-wrap: wrap;
   
   > * {
+    min-width: max-content;
+    align-self: flex-start;
     flex-shrink: 0;
   }
 }
@@ -99,7 +102,6 @@ table {
 }
 
 .sticky {
-  height: 0px;
   position: sticky;
   top: 50px
 }
@@ -217,20 +219,4 @@ form {
 
 h3 {
   margin: 0;
-}
-
-@media (max-width: 1000px) {
-  div#content {
-    flex-direction: column;
-    
-    & > * {
-      width: 100%;
-    }
-  }
-  
-  .sticky {
-    position: relative;
-    height: auto;
-    top: 0;
-  }
 }
