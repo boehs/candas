@@ -218,3 +218,19 @@ form {
 h3 {
   margin: 0;
 }
+
+@media (max-width: 1000px) {
+  div#content {
+    flex-direction: column;
+    
+    & > * {
+      width: 100%;
+    }
+  }
+  
+  .sticky {
+    position: relative;
+    height: auto;
+    top: 0;
+  }
+}
