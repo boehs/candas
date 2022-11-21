@@ -44,7 +44,7 @@ export function routeData({ params }: RouteDataArgs) {
                 assignmentsConnection {
                   edges {
                     node {
-                      id
+                      id: _id
                       name
                       pointsPossible
                       dueAt
