@@ -6,6 +6,7 @@ import Table from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
 import { camelToTitle } from "~/lib/helpers"
+import { useCourse } from "~/routes/(main)"
 
 type Module = {
 	id: number
@@ -80,6 +81,7 @@ function ResolveUrl(props: {
 export default function Modules() {
 	const { modules } = useRouteData<typeof routeData>()
 	const navigate = useNavigate()
+	const {findCourse} = useCourse()
 	const navigateShim = (location: string) => {
 		try {
 			navigate(location)
@@ -89,7 +91,7 @@ export default function Modules() {
 	}
 	const params = useParams()
 	return <>
-		<Title>Modules: {params.id}</Title>
+		<Title>Modules: {findCourse(params.id).name}</Title>
 		<For each={modules()}>
 			{module => <details open>
 				<summary>{module.name}</summary>

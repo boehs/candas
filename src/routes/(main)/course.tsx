@@ -3,12 +3,24 @@ import { For } from "solid-js";
 import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start";
 import { mode, pages, setMode } from "../(main)";
 
+//function Chips() {
+//    const navigate = useNavigate()
+//    
+//    createShortcut(['b'], () => navigate("../"))
+//
+//    return <div id="chips">
+//        <span>
+//            <span class="secondary">b</span>
+//            <A end={true} href="../">Go back</A>
+//        </span>
+//    </div>
+//}
+
 export default function Course() {
     const navigate = useNavigate()
     const location = useLocation()
 
     const prefix = () => location.pathname.replace(new RegExp(`\/(${pages.map(page => page[0].toLowerCase()).join('|')}).*`), '')
-    console.log(prefix())
     const path = (page) => `${prefix()}/${page[0].toLowerCase()}`
     pages.forEach((page) => {
         createShortcut([page[1]], () => {

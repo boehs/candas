@@ -1,5 +1,7 @@
+import { createContextProvider } from "@solid-primitives/context";
 import { createShortcut } from "@solid-primitives/keyboard";
 import { createSignal, For, Resource, Show } from "solid-js";
+import { createStore } from "solid-js/store";
 import ErrorBoundary, { A, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import Spinner from "~/components/spinner";
@@ -16,6 +18,22 @@ export function routeData() {
   return { courses }
 }
 
+type Data = ReturnType<typeof routeData>
+
+const [CourseContext,useCourse] = createContextProvider((props: {
+  courses: Data['courses']
+}) => {
+  const [courses, setCourses] = createStore({
+      courses: props.courses,
+      quarters: false as (false | {[key: number]: any})
+  })
+  
+  const findCourse = (id: number | string) => (courses.courses() || []).find(course => course.id == Number(id))
+  
+  return { courses, findCourse }
+})
+
+export { useCourse }
 
 export const pages = [["Announcements", "n", "📣"], ["Assignments", "a", "📝"], ["Modules", "m", "📦"], ["Wiki", "w", "📰"]] as const
 
@@ -55,7 +73,9 @@ export default function Main() {
             </For>
           </ul>
         </section>
-        <Outlet />
+        <CourseContext courses={courses}>
+          <Outlet />
+        </CourseContext>
       </div>
     </ErrorBoundary>
   </>);

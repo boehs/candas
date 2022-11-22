@@ -7,8 +7,8 @@ export function routeData({ params }: RouteDataArgs) {
     const wiki = createServerData$(async ([id,page]) => await api(`courses/${id}/pages/${page}`), {
         key: () => [params.id,params.page]
     })
-    const allPages = createServerData$(async ([id,page]) => await api(`courses/${id}/pages/`), {
-        key: () => [params.id,params.page]
+    const allPages = createServerData$(async ([id]) => await api(`courses/${id}/pages/`), {
+        key: () => [params.id]
     })
     return { wiki, allPages }
 }

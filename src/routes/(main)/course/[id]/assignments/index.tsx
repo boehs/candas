@@ -5,6 +5,7 @@ import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
 import gclc from "~/lib/gql"
+import { useCourse } from "~/routes/(main)"
 
 type assignment = {
     node: {
@@ -74,9 +75,10 @@ function AssignmentTable(props: {
 }) {
     const navigate = useNavigate()
     const params = useParams()
+    const {findCourse} = useCourse()
     
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
-        <Title>Assignments: {params.id}</Title>
+        <Title>Assignments: {findCourse(params.id).name}</Title>
         <For each={props.assignments.map(ass => ass.node)}>
             {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
                 color: (() => {

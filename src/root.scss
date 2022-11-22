@@ -36,7 +36,7 @@ div#content {
   max-width: 100%;
   flex-wrap: wrap;
   
-  > * {
+  > *:not(main) {
     min-width: max-content;
     align-self: flex-start;
     flex-shrink: 0;
