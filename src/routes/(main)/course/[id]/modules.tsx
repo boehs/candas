@@ -81,7 +81,7 @@ function ResolveUrl(props: {
 export default function Modules() {
 	const { modules } = useRouteData<typeof routeData>()
 	const navigate = useNavigate()
-	const {findCourse} = useCourse()
+	const { findCourse } = useCourse()
 	const navigateShim = (location: string) => {
 		try {
 			navigate(location)
@@ -97,19 +97,25 @@ export default function Modules() {
 				<summary>{module.name}</summary>
 				<Table headers={['Title', 'Type']}>
 					<For each={module.items}>
-						{item => <Tr goal={() => navigateShim(resolveUrl(item, params.id)[1])}>
+						{item => <Show when={item.type != 'SubHeader'} fallback={<tr>
 							<td style={{
 								"display": "inline-block",
 								"margin-left": `${item.indent * 30}px`
 							}}>
-								<Show when={item.type == 'SubHeader'} fallback={
-									<ResolveUrl item={item} course={params.id} />
-								}>
-									<h3><ResolveUrl item={item} course={params.id} /></h3>
-								</Show>
+								<ResolveUrl item={item} course={params.id} />
 							</td>
-							<td>{camelToTitle(item.type)}</td>
-						</Tr>}
+							<td/>
+						</tr>}>
+							<Tr goal={() => navigateShim(resolveUrl(item, params.id)[1])}>
+								<td style={{
+									"display": "inline-block",
+									"margin-left": `${item.indent * 30}px`
+								}}>
+									<ResolveUrl item={item} course={params.id} />
+								</td>
+								<td>{camelToTitle(item.type)}</td>
+							</Tr>
+						</Show>}
 					</For>
 				</Table>
 			</details>}
