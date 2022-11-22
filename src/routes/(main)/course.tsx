@@ -2,14 +2,30 @@ import { createShortcut } from "@solid-primitives/keyboard";
 import { For, Show } from "solid-js";
 import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start";
 import { mode, pages, setMode, useCourse } from "../(main)";
+import { useBeforeLeave } from '@solidjs/router'
 
 function Chips() {
-    const { courses } = useCourse()
+    const { courses, setCourses } = useCourse()
+    const navigate = useNavigate()
+
+    useBeforeLeave(e => {
+        setCourses({
+            instUrl: false,
+            prev: e.from.pathname
+        })
+    })
 
     // @ts-expect-error
-    if (courses.instUrl) createShortcut(['c'], () => window.location.href = courses.instUrl)
+    createShortcut(['c'], () => window.location.href = courses.instUrl)
+    createShortcut(['b'], () => navigate(courses.prev))
 
     return <div id="chips">
+        <Show when={courses.prev != ''}>
+            <span>
+                <span class="secondary">b</span>
+                <A end={true} href={courses.prev}>Go back</A>
+            </span>
+        </Show>
         <Show when={courses.instUrl}>
             <span>
                 <span class="secondary">c</span>

@@ -11,9 +11,6 @@ export default function Announcements() {
     const navigate = useNavigate()
     const announcements = useAnnouncements()
     const params = useParams()
-    
-    const { setCourses } = useCourse()
-    setCourses({instUrl: false})
 
     return <Table headers={['Title', 'Date']}>
         <Title>Announcements: {findCourse(params.id).name}</Title>

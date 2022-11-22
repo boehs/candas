@@ -1,6 +1,5 @@
-import { createShortcut } from "@solid-primitives/keyboard";
-import { Resource, Show } from "solid-js";
-import { A, RouteDataArgs, Title, useNavigate, useParams, useRouteData } from "solid-start";
+import { createEffect, Resource, Show } from "solid-js";
+import { RouteDataArgs, Title, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import gclc from "~/lib/gql";
 import { useCourse } from "~/routes/(main)";
@@ -41,18 +40,11 @@ export function routeData({ params }: RouteDataArgs) {
 
 export default function AssignmentView() {
     const {setCourses} = useCourse()
-    const params = useParams()
-    const navigate = useNavigate()
     const assignment = useRouteData<typeof routeData>()
     
-    if (assignment()) setCourses({instUrl: assignment().htmlUrl})
+    createEffect(() => { if (assignment()) setCourses({instUrl: assignment().htmlUrl}) })
 
-    createShortcut(['b'], () => navigate('../'))
     return <>
-        <span>
-            <span class="secondary">b</span>
-            <A end={true} href={`/course/${params.id}/assignments`}>Go back</A>
-        </span>
         <Show when={assignment()}>
             <Title>{assignment().name}</Title>
             <h1>{assignment().name}</h1>

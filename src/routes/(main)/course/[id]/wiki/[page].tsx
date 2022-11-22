@@ -1,3 +1,4 @@
+import { createEffect } from "solid-js"
 import { RouteDataArgs, Title, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
@@ -18,7 +19,7 @@ export default function Assignments() {
     const { wiki, allPages } = useRouteData<typeof routeData>()
     const { setCourses } = useCourse()
     
-    if (wiki()) setCourses({instUrl: wiki().html_url})
+    createEffect(() => { if (wiki()) setCourses({instUrl: wiki().html_url}) })
 
     return <>
         <Title>Wiki: Main</Title>

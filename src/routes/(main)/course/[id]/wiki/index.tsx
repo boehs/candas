@@ -1,5 +1,5 @@
 import { useNavigate } from "@solidjs/router"
-import { For, Resource, Show, Suspense } from "solid-js"
+import { createEffect, For, Resource, Show, Suspense } from "solid-js"
 import ErrorBoundary, { A, RouteDataArgs, Title, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import NoContent from "~/components/noContent"
@@ -23,7 +23,7 @@ export default function Wiki() {
     const { wiki, allPages } = useRouteData<typeof routeData>()
     const {setCourses} = useCourse()
     
-    if (wiki()) setCourses({instUrl: wiki().html_url})
+    createEffect(() => { if (wiki()) setCourses({instUrl: wiki().html_url}) })
 
     return <>
         <Title>Wiki: Main</Title>

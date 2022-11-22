@@ -85,7 +85,7 @@ function ResolveUrl(props: {
 export default function Modules() {
 	const { modules } = useRouteData<typeof routeData>()
 	const navigate = useNavigate()
-	const { findCourse, setCourses } = useCourse()
+	const { findCourse } = useCourse()
 	const navigateShim = (location: string) => {
 		try {
 			navigate(location)
@@ -93,9 +93,7 @@ export default function Modules() {
 			window.location.replace(location)
 		}
 	}
-	
-	setCourses({instUrl: false})
-	
+		
 	const params = useParams()
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
