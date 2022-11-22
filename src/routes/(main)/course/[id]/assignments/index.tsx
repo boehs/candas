@@ -75,7 +75,9 @@ function AssignmentTable(props: {
 }) {
     const navigate = useNavigate()
     const params = useParams()
-    const {findCourse} = useCourse()
+    const {findCourse,setCourses} = useCourse()
+
+    setCourses({instUrl: false})
     
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
         <Title>Assignments: {findCourse(params.id).name}</Title>

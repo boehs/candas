@@ -16,7 +16,7 @@ export function routeData({ params }: RouteDataArgs) {
 
 export default function Assignments() {
     const { wiki, allPages } = useRouteData<typeof routeData>()
-    const {setCourses} = useCourse()
+    const { setCourses } = useCourse()
     
     if (wiki()) setCourses({instUrl: wiki().html_url})
 
