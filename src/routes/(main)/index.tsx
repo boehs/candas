@@ -9,13 +9,16 @@ export default function Home() {
       <br/>
       For now, click on one of your classes (or, if you are feeling adventurous, hit a number!), and explore the new world
     </p>
-    <h2>Known Bugs</h2>
+    <h2>To-Do</h2>
     <ul>
       <li>Cold starts result in no table content rendering</li>
       <li>If date is unset, falls back to unix timestamp</li>
       <li>Can't submit from assignments</li>
-      <li>Modules and Announcements not using gql</li>
       <li>More <i>view in Canvas</i> buttons</li>
+      <li>This page</li>
+      <li>Auth</li>
+      <li>More responsiver</li>
+      <li>Term filters</li>
     </ul>
   </main>
 }
