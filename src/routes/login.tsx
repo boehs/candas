@@ -34,7 +34,3 @@ export default function Login() {
         </div>
     </>
 }
-
-function isRouting(): any {
-    throw new Error("Function not implemented.");
-}
