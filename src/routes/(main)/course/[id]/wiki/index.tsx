@@ -6,6 +6,7 @@ import NoContent from "~/components/noContent"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
+import { useCourse } from "~/routes/(main)"
 import wikiCss from './wiki.module.scss'
 
 export function routeData({ params }: RouteDataArgs) {
@@ -18,8 +19,12 @@ export function routeData({ params }: RouteDataArgs) {
     return { wiki, allPages }
 }
 
-export default function Assignments() {
+export default function Wiki() {
     const { wiki, allPages } = useRouteData<typeof routeData>()
+    const {setCourses} = useCourse()
+    
+    if (wiki()) setCourses({instUrl: wiki().html_url})
+
     return <>
         <Title>Wiki: Main</Title>
         <AllPages wiki={wiki} allPages={allPages} prefix=''/>

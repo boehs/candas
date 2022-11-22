@@ -25,12 +25,13 @@ const [CourseContext,useCourse] = createContextProvider((props: {
 }) => {
   const [courses, setCourses] = createStore({
       courses: props.courses,
-      quarters: false as (false | {[key: number]: any})
+      quarters: false as (false | {[key: number]: any}),
+      instUrl: false as (false | string)
   })
   
   const findCourse = (id: number | string) => (courses.courses() || []).find(course => course.id == Number(id))
   
-  return { courses, findCourse }
+  return { courses, findCourse, setCourses }
 })
 
 export { useCourse }

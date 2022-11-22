@@ -1,6 +1,7 @@
 import { RouteDataArgs, Title, useRouteData } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
+import { useCourse } from "~/routes/(main)"
 import { AllPages } from "."
 
 export function routeData({ params }: RouteDataArgs) {
@@ -15,7 +16,10 @@ export function routeData({ params }: RouteDataArgs) {
 
 export default function Assignments() {
     const { wiki, allPages } = useRouteData<typeof routeData>()
-    console.log(allPages())
+    const {setCourses} = useCourse()
+    
+    if (wiki()) setCourses({instUrl: wiki().html_url})
+
     return <>
         <Title>Wiki: Main</Title>
         <AllPages wiki={wiki} allPages={allPages} prefix='../'/>

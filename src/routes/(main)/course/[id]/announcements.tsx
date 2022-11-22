@@ -18,6 +18,7 @@ const [AnnouncementsContext,useAnnouncements] = createContextProvider((props: {
         posted_at: string,
         id: number,
         message: string
+        url: string
     }]>
 }) => {
     return props.resource

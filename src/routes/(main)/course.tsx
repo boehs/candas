@@ -1,20 +1,24 @@
 import { createShortcut } from "@solid-primitives/keyboard";
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start";
-import { mode, pages, setMode } from "../(main)";
+import { mode, pages, setMode, useCourse } from "../(main)";
 
-//function Chips() {
-//    const navigate = useNavigate()
-//    
-//    createShortcut(['b'], () => navigate("../"))
-//
-//    return <div id="chips">
-//        <span>
-//            <span class="secondary">b</span>
-//            <A end={true} href="../">Go back</A>
-//        </span>
-//    </div>
-//}
+function Chips() {
+    const { courses } = useCourse()
+
+    // @ts-expect-error
+    if (courses.instUrl) createShortcut(['c'], () => window.location.href = courses.instUrl)
+
+    return <div id="chips">
+        <Show when={courses.instUrl}>
+            <span>
+                <span class="secondary">c</span>
+                {/*@ts-expect-error*/}
+                <a end={true} href={courses.instUrl}>Open canvas</a>
+            </span>
+        </Show>
+    </div>
+}
 
 export default function Course() {
     const navigate = useNavigate()
@@ -42,6 +46,7 @@ export default function Course() {
         </ErrorBoundary>
         <ErrorBoundary>
             <main>
+                <Chips />
                 <Outlet />
             </main>
         </ErrorBoundary>

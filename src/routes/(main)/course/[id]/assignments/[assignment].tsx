@@ -3,12 +3,14 @@ import { Resource, Show } from "solid-js";
 import { A, RouteDataArgs, Title, useNavigate, useParams, useRouteData } from "solid-start";
 import { createServerData$ } from "solid-start/server";
 import gclc from "~/lib/gql";
+import { useCourse } from "~/routes/(main)";
 
 export function routeData({ params }: RouteDataArgs) {
     const assignment: Resource<{
         description: string
         dueAt: string
         name: string
+        htmlUrl: string
         submissionsConnection: {
             nodes: [{
                 grade: string
@@ -20,6 +22,7 @@ export function routeData({ params }: RouteDataArgs) {
           description
           dueAt
           name
+          htmlUrl
           submissionsConnection {
             nodes {
               grade
@@ -27,8 +30,7 @@ export function routeData({ params }: RouteDataArgs) {
             }
           }
         }
-      }
-    `, {
+      }`, {
         id: assignment
     }).toPromise().then(res => res.data.assignment), {
         key: () => [params.assignment]
@@ -37,10 +39,13 @@ export function routeData({ params }: RouteDataArgs) {
     return assignment
 }
 
-export default function AnnoucementView() {
+export default function AssignmentView() {
+    const {setCourses} = useCourse()
     const params = useParams()
     const navigate = useNavigate()
     const assignment = useRouteData<typeof routeData>()
+    
+    if (assignment()) setCourses({instUrl: assignment().htmlUrl})
 
     createShortcut(['b'], () => navigate('../'))
     return <>
