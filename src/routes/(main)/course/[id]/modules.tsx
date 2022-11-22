@@ -14,8 +14,9 @@ type Module = {
 	position: number
 	indent: number
 	type: string
-	external_url: string
-	content_id: number
+	url: string
+	content_id?: number
+	external_url?: string
 }
 
 type ModuleList = {
@@ -28,7 +29,10 @@ export function routeData({ params }: RouteDataArgs) {
 	const modules: Resource<ModuleList> = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`).then((moduleList: ModuleList) => {
 		moduleList.map(module => {
 			module.items = module.items.map(item => {
+				// Edgecase: Assignments
 				if (item.content_id) item.id = item.content_id
+				// Edgecase: Wiki
+				if (item.type == 'Page') item.id = item.page_url as number
 				return item
 			})
 		})
