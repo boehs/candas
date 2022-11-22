@@ -26,7 +26,7 @@ type ModuleList = {
 }[]
 
 export function routeData({ params }: RouteDataArgs) {
-	const modules: Resource<ModuleList> = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`).then((moduleList: ModuleList) => {
+	const modules: Resource<ModuleList> = createServerData$(async ([id],{request}) => await api(`courses/${id}/modules?include[]=items`,{request}).then((moduleList: ModuleList) => {
 		moduleList.map(module => {
 			module.items = module.items.map(item => {
 				// Edgecase: Assignments

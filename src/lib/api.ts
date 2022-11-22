@@ -1,14 +1,23 @@
-const api = async (...args: Parameters<typeof fetch>) => {
-  if (!args[1]) args[1] = {}
-  args[0] = `https://${process.env.ENDPOINT}/api/v1/${args[0]}`
-  args[1].headers = {
-    "Authorization": `Bearer ${process.env.AUTH}`
+import { redirect } from "solid-start"
+import { getSession } from "./session"
+
+const api = async (url: Parameters<typeof fetch>[0],options?: Parameters<typeof fetch>[1] & {request?: Request} ) => {
+  const session = await getSession(options.request)
+  if (!session.instance) throw redirect('/login',{
+    status: 401
+  })
+  
+  if (!options) options = {}
+  url = `https://${session.instance}/api/v1/${url}`
+  options.headers = {
+    "Authorization": `Bearer ${session.key}`
   }
   
-  console.log(`fetching ${args[0]}`)
+  
+  console.log(`fetching ${url}}`)
 
   try {
-    let response = await fetch(...args);
+    let response = await fetch(url, options);
     let text = await response.text();
     try {
       if (text === null) {

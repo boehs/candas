@@ -6,7 +6,7 @@ import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 
 export function routeData({params}: RouteDataArgs) {
-    const annoucements = createServerData$(async ([id]) => await api(`announcements?context_codes[]=course_${id}`), {
+    const annoucements = createServerData$(async ([id],{request}) => await api(`announcements?context_codes[]=course_${id}`,{request}), {
         key: () => [params.id]
     })
     return { annoucements }

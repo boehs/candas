@@ -10,10 +10,10 @@ import { useCourse } from "~/routes/(main)"
 import wikiCss from './wiki.module.scss'
 
 export function routeData({ params }: RouteDataArgs) {
-    const wiki = createServerData$(async ([id]) => await api(`courses/${id}/front_page`), {
+    const wiki = createServerData$(async ([id],{request}) => await api(`courses/${id}/front_page`,{request}), {
         key: () => [params.id]
     })
-    const allPages = createServerData$(async ([id,page]) => await api(`courses/${id}/pages/`), {
+    const allPages = createServerData$(async ([id],{request}) => await api(`courses/${id}/pages/`,{request}), {
         key: () => [params.id,params.page]
     })
     return { wiki, allPages }
