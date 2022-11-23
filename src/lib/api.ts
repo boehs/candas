@@ -1,7 +1,7 @@
 import { redirect } from "solid-start"
 import { getSession } from "./session"
 
-const api = async (url: Parameters<typeof fetch>[0],options?: Parameters<typeof fetch>[1] & {request?: Request} ) => {
+const api = async (url: Parameters<typeof fetch>[0],options?: Parameters<typeof fetch>[1] & {request?: Request} ) => {  
   const session = await getSession(options.request)
   if (!session.instance) throw redirect('/login',{
     status: 401
@@ -12,7 +12,6 @@ const api = async (url: Parameters<typeof fetch>[0],options?: Parameters<typeof 
   options.headers = {
     "Authorization": `Bearer ${session.key}`
   }
-  
   
   console.log(`fetching ${url}}`)
 

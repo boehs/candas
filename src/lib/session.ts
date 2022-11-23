@@ -1,5 +1,5 @@
 import { isServer } from "solid-js/web";
-import { createCookieSessionStorage, parseCookie, useServerContext } from "solid-start";
+import { createCookieSessionStorage, useServerContext } from "solid-start";
 
 export const storage = createCookieSessionStorage({
     cookie: {
