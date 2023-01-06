@@ -1,6 +1,5 @@
-import { createShortcut } from "@solid-primitives/keyboard";
 import { createEffect } from "solid-js";
-import { A, Title, useParams } from "solid-start";
+import { Title, useParams } from "solid-start";
 import { useCourse } from "~/routes/(main)";
 import { useAnnouncements } from "../announcements";
 
