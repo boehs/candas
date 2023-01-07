@@ -1,12 +1,14 @@
 import { redirect } from "solid-start"
-import { getSession, useState } from "./session"
+import { useState } from "./session"
 
 const api = async (url: Parameters<typeof fetch>[0],options?: Parameters<typeof fetch>[1] & {request?: Request} ) => {  
-  console.log(useState())
-  const session = useState()
+  console.log(useState()())
+  const session = useState()()
   if (!session.instance) throw redirect('/login',{
     status: 401
   })
+  
+  await useState()
   
   if (!options) options = {}
   url = `https://${session.instance}/api/v1/${url}`

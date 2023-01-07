@@ -1,5 +1,5 @@
 // @refresh reload
-import { Suspense } from "solid-js";
+import { Show, Suspense } from "solid-js";
 import {
   A,
   Body,
@@ -16,8 +16,7 @@ import "./root.scss";
 
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import { isServer } from "solid-js/web";
-import { useRequest } from "solid-start/server";
-import { State } from "./lib/session";
+import { StateProvider, useState } from "./lib/session";
 if (isServer) dotenv.config()
 
 export default function Root() {
@@ -31,12 +30,14 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <State>
-              <Routes>
-                <FileRoutes />
-              </Routes>
+            <StateProvider>
+              <Show when={!useState().loading}>
+                <Routes>
+                  <FileRoutes />
+                </Routes>
+              </Show>
               <sup id="lp" class="tiny"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a></sup>
-            </State>
+            </StateProvider>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

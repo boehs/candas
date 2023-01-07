@@ -16,18 +16,21 @@ export const storage = createCookieSessionStorage({
   }
 });
 
-export async function getSession(cookie?: string) {
-  cookie = isServer
-      ? useRequest().request.headers.get("cookie") ?? ""
-      : document.cookie
-  const session = await storage.getSession(cookie)
-  console.log(session.get('key'), session.get('instance'))
-  return {
-    instance: session.get('instance') as string || null,
-    key: session.get('key') as string || null
-  }
-}
+export const [StateProvider, useState] = createContextProvider(() => {
+  const cookie = isServer
+    ? useRequest().request.headers.get("cookie") ?? ""
+    : document.cookie
 
-const [initalUser] = createResource(async () => await getSession())
+  const [userSession] = createResource(async () => {
+    const session = await storage.getSession(cookie)
+    const tokens = {
+      instance: session.get('instance') as string || null,
+      key: session.get('key') as string || null
+    }
 
-export const [State,useState] = createContextProvider(() => initalUser)
+    return (tokens)
+  }, {
+    deferStream: true
+  })
+  return userSession
+})

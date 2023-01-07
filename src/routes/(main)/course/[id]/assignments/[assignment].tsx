@@ -16,7 +16,7 @@ export function routeData({ params }: RouteDataArgs) {
                 missing: string
             }]
         }
-    }> = createServerData$(([assignment]) => gclc.query(`query($id: ID!){
+    }> = createServerData$(([assignment]) => gclc().query(`query($id: ID!){
         assignment(id: $id) {
           description
           dueAt

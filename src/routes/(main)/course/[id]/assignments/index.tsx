@@ -34,7 +34,7 @@ export function routeData({ params }: RouteDataArgs) {
                 edges: assignment
             }
         }
-    }[]> = createServerData$(async ([id]) => await gclc.query(`query($id: ID!) {
+    }[]> = createServerData$(async ([id]) => await gclc().query(`query($id: ID!) {
         course(id: $id) {
           assignmentGroupsConnection {
             edges {
