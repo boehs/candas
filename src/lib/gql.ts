@@ -1,18 +1,17 @@
 import { createClient } from '@urql/core'
 import * as dotenv from 'dotenv'
+import { useState } from './session'
 
 dotenv.config({
   path: '../../.env'
 })
 
-const endpoint = process.env.ENDPOINT || 'brookline.instructure.com'
-
 const gclc = createClient({
-  url: `https://${endpoint}/api/graphql`,
+  url: `https://${useState().instance}/api/graphql`,
   fetchOptions: () => {
     return {
       headers: {
-         'Authorization': `Bearer ${process.env.AUTH}`
+         'Authorization': `Bearer ${useState().key}`
       }
     }
   }
