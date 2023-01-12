@@ -1,5 +1,6 @@
 import { createContextProvider } from "@solid-primitives/context";
 import { createResource } from "solid-js";
+import { createStore } from "solid-js/store";
 import { isServer } from "solid-js/web";
 import { createCookieSessionStorage } from "solid-start";
 import { useRequest } from "solid-start/server";
@@ -16,21 +17,35 @@ export const storage = createCookieSessionStorage({
   }
 });
 
+export const [state,setState] = createStore<{
+  instance: string
+  key: string
+}>({
+  instance: '',
+  key: ''
+})
+
 export const [StateProvider, useState] = createContextProvider(() => {
+  console.log(state)
+  
   const cookie = isServer
     ? useRequest().request.headers.get("cookie") ?? ""
     : document.cookie
 
   const [userSession] = createResource(async () => {
+    if (state.instance && state.key) return
     const session = await storage.getSession(cookie)
     const tokens = {
-      instance: session.get('instance') as string || null,
-      key: session.get('key') as string || null
+      instance: session.data.instance as string || null,
+      key: session.data.key as string || null
     }
 
     return (tokens)
   }, {
     deferStream: true
   })
-  return userSession
+  
+  if (!userSession.loading) setState(userSession())
+  
+  return state
 })

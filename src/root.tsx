@@ -31,11 +31,9 @@ export default function Root() {
         <Suspense>
           <ErrorBoundary>
             <StateProvider>
-              <Show when={!useState().loading}>
                 <Routes>
                   <FileRoutes />
                 </Routes>
-              </Show>
               <sup id="lp" class="tiny"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a></sup>
             </StateProvider>
           </ErrorBoundary>
