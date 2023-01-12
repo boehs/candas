@@ -7,7 +7,7 @@ import api from "~/lib/api"
 
 export function routeData({params}: RouteDataArgs) {
     const annoucements = createServerData$(async ([id],{request}) => {
-        return await api(`announcements?context_codes[]=course_${id}`,{request})
+        return await api(`announcements?context_codes[]=course_${id}`)
     }, {
         key: () => [params.id]
     })

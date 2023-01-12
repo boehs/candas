@@ -6,10 +6,10 @@ import { useCourse } from "~/routes/(main)"
 import { AllPages } from "."
 
 export function routeData({ params }: RouteDataArgs) {
-    const wiki = createServerData$(async ([id,page],{request}) => await api(`courses/${id}/pages/${page}`,{request}), {
+    const wiki = createServerData$(async ([id,page]) => await api(`courses/${id}/pages/${page}`), {
         key: () => [params.id,params.page]
     })
-    const allPages = createServerData$(async ([id],{request}) => await api(`courses/${id}/pages/`,{request}), {
+    const allPages = createServerData$(async ([id]) => await api(`courses/${id}/pages/`), {
         key: () => [params.id]
     })
     return { wiki, allPages }

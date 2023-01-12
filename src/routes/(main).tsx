@@ -11,7 +11,7 @@ export function routeData() {
   const courses: Resource<[{
     id: number
     name: string
-  }]> = createServerData$(async (_,{request}) => await api('courses?enrollment_state=active',{request}), {
+  }]> = createServerData$(async () => await api('courses?enrollment_state=active'), {
     key: [false]
   })
 
