@@ -10,7 +10,7 @@ export default createHandler(
   ({forward}) => {
     return async event => {
       const store = await storage.getSession(event.request.headers.get('cookie'))
-      if (store && store.data && !state) setState(store.data)
+      setState(store.data)
       return forward(event)
     }
   },
