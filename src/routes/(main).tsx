@@ -17,7 +17,7 @@ export function routeData() {
 
 type Data = ReturnType<typeof routeData>
 
-const [CourseContext,useCourse] = createContextProvider((props: {
+export const [CourseContext,useCourse] = createContextProvider((props: {
   courses: Data['courses']
 }) => {
   const [courses, setCourses] = createStore({
@@ -32,8 +32,6 @@ const [CourseContext,useCourse] = createContextProvider((props: {
   return { courses, findCourse, setCourses }
 })
 
-export { useCourse }
-
 export const pages = [["Announcements", "n", "📣"], ["Assignments", "a", "📝"], ["Modules", "m", "📦"], ["Wiki", "w", "📰"]] as const
 
 export const [mode, setMode] = createSignal<typeof pages[number][number]>(pages[0][0])
@@ -47,7 +45,6 @@ export default function Main() {
   setMode(search ? search[0] : pages[0][0])
 
   const { courses } = useRouteData<typeof routeData>()
-  
   if (courses()) courses().forEach((course, i) => createShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode().toLowerCase()}`)))
   return (<>
     <link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${pages.find(page => page[0] == mode())[2]}</text></svg>`}></link>

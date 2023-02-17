@@ -9,7 +9,7 @@ export function routeData({params}: RouteDataArgs) {
     return { annoucements }
 }
 
-const [AnnouncementsContext,useAnnouncements] = createContextProvider((props: {
+export const [AnnouncementsContext,useAnnouncements] = createContextProvider((props: {
     resource: Resource<[{
         title: string,
         posted_at: string,
@@ -20,8 +20,6 @@ const [AnnouncementsContext,useAnnouncements] = createContextProvider((props: {
 }) => {
     return props.resource
 })
-
-export {useAnnouncements}
 
 export default function Announcements() {
     const { annoucements } = useRouteData<typeof routeData>()
