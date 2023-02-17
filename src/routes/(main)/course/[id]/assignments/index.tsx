@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "@solidjs/router"
-import { For, Resource, Show } from "solid-js"
+import { For, Show } from "solid-js"
 import { A, RouteDataArgs, Title, useRouteData } from "solid-start"
-import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
-import gclc from "~/lib/gql"
+import query from "~/lib/gql"
 import { useCourse } from "~/routes/(main)"
 
 type assignment = {
@@ -25,7 +24,7 @@ type assignment = {
 }[]
 
 export function routeData({ params }: RouteDataArgs) {
-    const assignmentsGroups: Resource<{
+    const assignmentsGroups = query<{
         node: {
             id: string
             name: string
@@ -34,7 +33,7 @@ export function routeData({ params }: RouteDataArgs) {
                 edges: assignment
             }
         }
-    }[]> = createServerData$(async ([id]) => await gclc().query(`query($id: ID!) {
+    }[]>(`query($id: ID!) {
         course(id: $id) {
           assignmentGroupsConnection {
             edges {
@@ -63,10 +62,8 @@ export function routeData({ params }: RouteDataArgs) {
           }
         }
       }`, {
-        id: Number(id)
-    }).toPromise().then(res => res.data.course.assignmentGroupsConnection.edges), {
-        key: () => [params.id]
-    })
+        id: Number(params.id)
+    }, (r) =>  r.course.assignmentGroupsConnection.edges)
     return { assignmentsGroups }
 }
 

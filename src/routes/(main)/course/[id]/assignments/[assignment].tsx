@@ -1,11 +1,10 @@
-import { createEffect, Resource, Show } from "solid-js";
+import { createEffect, Show } from "solid-js";
 import { RouteDataArgs, Title, useRouteData } from "solid-start";
-import { createServerData$ } from "solid-start/server";
-import gclc from "~/lib/gql";
+import query from "~/lib/gql";
 import { useCourse } from "~/routes/(main)";
 
 export function routeData({ params }: RouteDataArgs) {
-    const assignment: Resource<{
+    const assignment = query<{
         description: string
         dueAt: string
         name: string
@@ -16,7 +15,7 @@ export function routeData({ params }: RouteDataArgs) {
                 missing: string
             }]
         }
-    }> = createServerData$(([assignment]) => gclc().query(`query($id: ID!){
+    }>(`query($id: ID!){
         assignment(id: $id) {
           description
           dueAt
@@ -30,10 +29,8 @@ export function routeData({ params }: RouteDataArgs) {
           }
         }
       }`, {
-        id: assignment
-    }).toPromise().then(res => res.data.assignment), {
-        key: () => [params.assignment]
-    })
+        id: params.assignment
+    }, (r) => r.assignment)
 
     return assignment
 }
