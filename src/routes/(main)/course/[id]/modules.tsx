@@ -1,7 +1,7 @@
 import { A, useNavigate } from "@solidjs/router"
-import { For, Match, Resource, Show, Switch } from "solid-js"
+import { For, Match, Show, Switch } from "solid-js"
+import { createMutable, produce, unwrap } from "solid-js/store"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
-import { createServerData$ } from "solid-start/server"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
@@ -26,8 +26,8 @@ type ModuleList = {
 }[]
 
 export function routeData({ params }: RouteDataArgs) {
-	const modules: Resource<ModuleList> = createServerData$(async ([id]) => await api(`courses/${id}/modules?include[]=items`).then((moduleList: ModuleList) => {
-		moduleList.map(module => {
+	const modules = api<ModuleList>(`courses/${params.id}/modules?include[]=items`, {
+		postprocess: (r) => r.map(module => {
 			module.items = module.items.map(item => {
 				// Edgecase: Assignments
 				if (item.content_id) item.id = item.content_id
@@ -36,9 +36,6 @@ export function routeData({ params }: RouteDataArgs) {
 				return item
 			})
 		})
-		return moduleList
-	}), {
-		key: () => [params.id]
 	})
 	return { modules }
 }
@@ -50,6 +47,7 @@ const maps = {
 		'Page': 'wiki'
 	},
 	external: {
+		// TODO: No hardcode
 		'Quiz': (mod: Module, course: any) => `https://${process.env.ENDPOINT}/courses/${course}/quizzes/${mod.id}`
 	}
 }
@@ -84,6 +82,7 @@ function ResolveUrl(props: {
 
 export default function Modules() {
 	const { modules } = useRouteData<typeof routeData>()
+	console.log(modules())
 	const navigate = useNavigate()
 	const { findCourse } = useCourse()
 	const navigateShim = (location: string) => {
@@ -93,7 +92,7 @@ export default function Modules() {
 			window.location.replace(location)
 		}
 	}
-		
+
 	const params = useParams()
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
@@ -109,7 +108,7 @@ export default function Modules() {
 							}}>
 								<ResolveUrl item={item} course={params.id} />
 							</td>
-							<td/>
+							<td />
 						</tr>}>
 							<Tr goal={() => navigateShim(resolveUrl(item, params.id)[1])}>
 								<td style={{

@@ -1,17 +1,18 @@
+import { Resource } from "solid-js"
 import { redirect } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import getSession from "./session"
 
-const api = (url: Parameters<typeof fetch>[0], options?: Parameters<typeof fetch>[1]) => {
-  return createServerData$(async (url, req) => {
+const api = <T>(url: Parameters<typeof fetch>[0], options: (Parameters<typeof fetch>[1]) & {
+  postprocess?: (r: any) => T
+} = {}) => {
+  return createServerData$(async ([url,options], req) => {
     const state = await getSession(req.request.headers.get('cookie'))
 
     if (!state.instance) throw redirect('/login', {
       status: 401
     })
     url = `https://${state.instance}/api/v1/${url}`
-
-    console.log(`fetching ${url}}`)
 
     try {
       let response = await fetch(url, {
@@ -24,7 +25,9 @@ const api = (url: Parameters<typeof fetch>[0], options?: Parameters<typeof fetch
         if (text === null) {
           return { error: "Not found" };
         }
-        return JSON.parse(text);
+        const json = JSON.parse(text);
+        if (options.postprocess) return options.postprocess(json)
+        else return json
       } catch (e) {
         console.error(e);
         return { error: e };
@@ -33,8 +36,8 @@ const api = (url: Parameters<typeof fetch>[0], options?: Parameters<typeof fetch
       return { error };
     }
   }, {
-    key: () => url
-  })
+    key: () => [url,options]
+  }) as Resource<T>
 }
 
 export default api;
