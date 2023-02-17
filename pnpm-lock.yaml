@@ -13,7 +13,7 @@ specifiers:
   sass: ^1.56.1
   solid-js: ^1.6.0
   solid-start: ^0.2.21
-  solid-start-cloudflare-workers: ^0.2.21
+  solid-start-cloudflare-pages: ^0.2.21
   solid-start-node: ^0.2.0
   ts-node: ^10.9.1
   typescript: ^4.8.4
@@ -32,8 +32,8 @@ dependencies:
   graphql: 16.6.0
   sass: 1.56.1
   solid-js: 1.6.0
-  solid-start: 0.2.21_ysjunowdfyfjkmoyjqlsuzjvrm
-  solid-start-cloudflare-workers: 0.2.21_oghrurwqvkmn2iblmigbg75bti
+  solid-start: 0.2.21_zqabs4bnfprqcrldrevgrcu5uu
+  solid-start-cloudflare-pages: 0.2.21_oghrurwqvkmn2iblmigbg75bti
   ts-node: 10.9.1_typescript@4.8.4
   undici: 5.12.0
 
@@ -5262,8 +5262,8 @@ packages:
       '@babel/types': 7.20.7
       solid-js: 1.6.0
 
-  /solid-start-cloudflare-workers/0.2.21_oghrurwqvkmn2iblmigbg75bti:
-    resolution: {integrity: sha512-2FF+wXEgkMuiZsQD1pd4X1OrU7navgMS641K3XZcgtAmO+AGDSXKNKGIwuN77+EJjnVR80ZP7YJUXj1EIVIeAw==}
+  /solid-start-cloudflare-pages/0.2.21_oghrurwqvkmn2iblmigbg75bti:
+    resolution: {integrity: sha512-OjBOrBMv629/QNo5IIhq8aGCO/6erRzFn79wBgUuZKSaLdzsQ3ZosJMUdQA8uEr+yapQqS548dPzIoM+UXfzhQ==}
     peerDependencies:
       solid-start: '*'
       vite: '*'
@@ -5280,7 +5280,7 @@ packages:
       '@types/ws': 8.5.4
       miniflare: 2.12.0
       rollup: 3.16.0
-      solid-start: 0.2.21_ysjunowdfyfjkmoyjqlsuzjvrm
+      solid-start: 0.2.21_zqabs4bnfprqcrldrevgrcu5uu
       terser: 5.16.4
       vite: 3.2.3_sass@1.56.1
       ws: 8.12.1
@@ -5305,14 +5305,14 @@ packages:
       polka: 1.0.0-next.22
       rollup: 2.79.1
       sirv: 2.0.2
-      solid-start: 0.2.21_ysjunowdfyfjkmoyjqlsuzjvrm
+      solid-start: 0.2.21_zqabs4bnfprqcrldrevgrcu5uu
       terser: 5.15.1
       undici: 5.12.0
       vite: 3.2.3_sass@1.56.1
     transitivePeerDependencies:
       - supports-color
 
-  /solid-start/0.2.21_ysjunowdfyfjkmoyjqlsuzjvrm:
+  /solid-start/0.2.21_zqabs4bnfprqcrldrevgrcu5uu:
     resolution: {integrity: sha512-igh1vI6d8sBm9BeGGcJOE7ewEOSlhzmL3f4iVX0bg5oz+9xtqAf1EA0MvNkTLTvq5YKsVKYy80oJmm/xg0F8jw==}
     hasBin: true
     peerDependencies:
@@ -5375,7 +5375,7 @@ packages:
       set-cookie-parser: 2.5.1
       sirv: 2.0.2
       solid-js: 1.6.0
-      solid-start-cloudflare-workers: 0.2.21_oghrurwqvkmn2iblmigbg75bti
+      solid-start-cloudflare-pages: 0.2.21_oghrurwqvkmn2iblmigbg75bti
       solid-start-node: 0.2.5_bl6ag4kotvlzzp2zs565lvbete
       terser: 5.16.4
       undici: 5.19.1
