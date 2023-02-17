@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "@solidjs/router"
+import { gql } from "@urql/core"
 import { For, Show } from "solid-js"
-import { A, RouteDataArgs, Title, useRouteData } from "solid-start"
+import { A, createRouteData, RouteDataArgs, Title, useRouteData } from "solid-start"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
-import query from "~/lib/gql"
+import { client } from "~/lib/gql"
 import { useCourse } from "~/routes/(main)"
 
 type assignment = {
@@ -24,7 +25,7 @@ type assignment = {
 }[]
 
 export function routeData({ params }: RouteDataArgs) {
-    const assignmentsGroups = query<{
+    const assignmentsGroups = createRouteData<{
         node: {
             id: string
             name: string
@@ -33,7 +34,7 @@ export function routeData({ params }: RouteDataArgs) {
                 edges: assignment
             }
         }
-    }[]>(`query($id: ID!) {
+    }[],[number]>(async ([id]) => await client.query(gql`query($id: ID!) {
         course(id: $id) {
           assignmentGroupsConnection {
             edges {
@@ -62,8 +63,10 @@ export function routeData({ params }: RouteDataArgs) {
           }
         }
       }`, {
-        id: Number(params.id)
-    }, (r) =>  r.course.assignmentGroupsConnection.edges)
+        id: Number(id)
+    }).toPromise().then(res => res.data.course.assignmentGroupsConnection.edges), {
+        key: () => [params.id]
+    })
     return { assignmentsGroups }
 }
 

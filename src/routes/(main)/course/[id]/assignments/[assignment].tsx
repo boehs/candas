@@ -1,10 +1,11 @@
+import { gql } from "@urql/core";
 import { createEffect, Show } from "solid-js";
-import { RouteDataArgs, Title, useRouteData } from "solid-start";
-import query from "~/lib/gql";
+import { createRouteData, RouteDataArgs, Title, useRouteData } from "solid-start";
+import query, { client } from "~/lib/gql";
 import { useCourse } from "~/routes/(main)";
 
 export function routeData({ params }: RouteDataArgs) {
-    const assignment = query<{
+    const assignment = createRouteData<{
         description: string
         dueAt: string
         name: string
@@ -15,7 +16,7 @@ export function routeData({ params }: RouteDataArgs) {
                 missing: string
             }]
         }
-    }>(`query($id: ID!){
+    },[string]>(([assignment]) => client.query(gql`query($id: ID!){
         assignment(id: $id) {
           description
           dueAt
@@ -29,17 +30,19 @@ export function routeData({ params }: RouteDataArgs) {
           }
         }
       }`, {
-        id: params.assignment
-    }, (r) => r.assignment)
+        id: assignment
+    }).toPromise().then(res => res.data.assignment), {
+        key: () => [params.assignment]
+    })
 
     return assignment
 }
 
 export default function AssignmentView() {
-    const {setCourses} = useCourse()
+    const { setCourses } = useCourse()
     const assignment = useRouteData<typeof routeData>()
-    
-    createEffect(() => { if (assignment()) setCourses({instUrl: assignment().htmlUrl}) })
+
+    createEffect(() => { if (assignment()) setCourses({ instUrl: assignment().htmlUrl }) })
 
     return <>
         <Show when={assignment()}>
@@ -48,7 +51,7 @@ export default function AssignmentView() {
             <ul>
                 <li>due: {new Date(assignment().dueAt).toLocaleString()}</li>
             </ul>
-            <hr/>
+            <hr />
             <div innerHTML={assignment().description} />
         </Show>
     </>
