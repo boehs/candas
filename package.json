@@ -24,7 +24,7 @@
     "graphql": "^16.6.0",
     "sass": "^1.56.1",
     "solid-js": "^1.6.0",
-    "solid-start": "^0.2.5",
+    "solid-start": "^0.2.21",
     "ts-node": "^10.9.1",
     "undici": "^5.11.0"
   },

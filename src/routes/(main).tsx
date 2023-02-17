@@ -3,7 +3,6 @@ import { createShortcut } from "@solid-primitives/keyboard";
 import { createSignal, For, Resource, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import ErrorBoundary, { A, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
-import { createServerData$ } from "solid-start/server";
 import Spinner from "~/components/spinner";
 import api from "~/lib/api";
 
@@ -11,9 +10,7 @@ export function routeData() {
   const courses: Resource<[{
     id: number
     name: string
-  }]> = createServerData$(async () => await api('courses?enrollment_state=active'), {
-    key: [false]
-  })
+  }]> = api('courses?enrollment_state=active')
 
   return { courses }
 }
@@ -50,7 +47,7 @@ export default function Main() {
   setMode(search ? search[0] : pages[0][0])
 
   const { courses } = useRouteData<typeof routeData>()
-
+  
   if (courses()) courses().forEach((course, i) => createShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode().toLowerCase()}`)))
   return (<>
     <link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${pages.find(page => page[0] == mode())[2]}</text></svg>`}></link>

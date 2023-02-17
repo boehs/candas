@@ -2,15 +2,10 @@ import { createContextProvider } from "@solid-primitives/context"
 import { Resource } from "solid-js"
 import { RouteDataArgs, useRouteData } from "solid-start"
 import { Outlet } from "solid-start"
-import { createServerData$ } from "solid-start/server"
 import api from "~/lib/api"
 
 export function routeData({params}: RouteDataArgs) {
-    const annoucements = createServerData$(async ([id],{request}) => {
-        return await api(`announcements?context_codes[]=course_${id}`)
-    }, {
-        key: () => [params.id]
-    })
+    const annoucements = api(`announcements?context_codes[]=course_${params.id}`)
     return { annoucements }
 }
 

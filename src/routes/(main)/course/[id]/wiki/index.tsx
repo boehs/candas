@@ -1,7 +1,6 @@
 import { useNavigate } from "@solidjs/router"
 import { createEffect, For, Resource, Show, Suspense } from "solid-js"
 import ErrorBoundary, { A, RouteDataArgs, Title, useRouteData } from "solid-start"
-import { createServerData$ } from "solid-start/server"
 import NoContent from "~/components/noContent"
 import Table from "~/components/table"
 import Tr from "~/components/tr"
@@ -10,12 +9,8 @@ import { useCourse } from "~/routes/(main)"
 import wikiCss from './wiki.module.scss'
 
 export function routeData({ params }: RouteDataArgs) {
-    const wiki = createServerData$(async ([id]) => await api(`courses/${id}/front_page`), {
-        key: () => [params.id]
-    })
-    const allPages = createServerData$(async ([id]) => await api(`courses/${id}/pages/`), {
-        key: () => [params.id,params.page]
-    })
+    const wiki = api(`courses/${params.id}/front_page`)
+    const allPages = api(`courses/${params.id}/pages/`)
     return { wiki, allPages }
 }
 
