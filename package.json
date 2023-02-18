@@ -8,9 +8,9 @@
   },
   "type": "module",
   "devDependencies": {
-    "solid-start-node": "^0.2.0",
-    "typescript": "^4.8.4",
-    "vite": "^3.2.3"
+    "solid-start-node": "^0.2.21",
+    "typescript": "^4.9.4",
+    "vite": "^3.2.5"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^2.13.12",
@@ -18,16 +18,16 @@
     "@solid-primitives/context": "^0.1.2",
     "@solid-primitives/keyboard": "^1.0.5",
     "@solidjs/meta": "^0.28.0",
-    "@solidjs/router": "^0.5.1",
+    "@solidjs/router": "^0.7.0",
     "@urql/core": "^3.0.5",
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
-    "sass": "^1.56.1",
-    "solid-js": "^1.6.0",
+    "sass": "^1.58.1",
+    "solid-js": "^1.6.9",
     "solid-start": "^0.2.21",
     "solid-start-cloudflare-pages": "^0.2.21",
     "ts-node": "^10.9.1",
-    "undici": "^5.11.0"
+    "undici": "^5.15.1"
   },
   "engines": {
     "node": ">=16"
