@@ -26,7 +26,7 @@ type ModuleList = {
 }[]
 
 export function routeData({ params }: RouteDataArgs) {
-	const modules = api<ModuleList>(`courses/${params.id}/modules?include[]=items`, {
+	const modules = api<ModuleList>(() => `courses/${params.id}/modules?include[]=items`, {
 		postprocess: (r) => r.map(module => {
 			module.items = module.items.map(item => {
 				// Edgecase: Assignments
@@ -82,7 +82,6 @@ function ResolveUrl(props: {
 
 export default function Modules() {
 	const { modules } = useRouteData<typeof routeData>()
-	console.log(modules())
 	const navigate = useNavigate()
 	const { findCourse } = useCourse()
 	const navigateShim = (location: string) => {

@@ -5,8 +5,8 @@ import { useCourse } from "~/routes/(main)"
 import { AllPages } from "."
 
 export function routeData({ params }: RouteDataArgs) {
-    const wiki =  api(`courses/${params.id}/pages/${params.page}`)
-    const allPages = api(`courses/${params.id}/pages/`)
+    const wiki =  api(() => `courses/${params.id}/pages/${params.page}`)
+    const allPages = api(() => `courses/${params.id}/pages/`)
     return { wiki, allPages }
 }
 

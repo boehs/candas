@@ -4,5 +4,7 @@ import cloudflare from "solid-start-cloudflare-pages";
 
 
 export default defineConfig({
-  plugins: [solid({ "adapter": cloudflare({})})],
+  plugins: [solid({
+    adapter: cloudflare({})
+  })],
 });

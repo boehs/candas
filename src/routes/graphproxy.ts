@@ -5,7 +5,6 @@ async function handler({request: req}: APIEvent) {
     const state = await getSession(req.headers.get('cookie'))
     
     const body = JSON.stringify(await new Response(req.body).json())
-    console.log(body)
 
     const proxied = await fetch(`https://${state.instance}/api/graphql`, {
         method: req.method,

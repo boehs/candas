@@ -5,7 +5,7 @@ import { Outlet } from "solid-start"
 import api from "~/lib/api"
 
 export function routeData({params}: RouteDataArgs) {
-    const annoucements = api(`announcements?context_codes[]=course_${params.id}`)
+    const annoucements = api(() => `announcements?context_codes[]=course_${params.id}`)
     return { annoucements }
 }
 

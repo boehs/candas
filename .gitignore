@@ -24,3 +24,4 @@ gitignore
 Thumbs.db
 
 .env
+functions

@@ -1,6 +1,3 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
-
 const endpoint = `https://${process.env.ENDPOINT}/api/graphql`
 
 let config = {

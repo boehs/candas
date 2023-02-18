@@ -10,7 +10,7 @@ export function routeData() {
   const courses: Resource<[{
     id: number
     name: string
-  }]> = api('courses?enrollment_state=active')
+  }]> = api(() => 'courses?enrollment_state=active')
 
   return { courses }
 }

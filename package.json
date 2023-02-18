@@ -20,14 +20,14 @@
     "@solidjs/meta": "^0.28.0",
     "@solidjs/router": "^0.7.0",
     "@urql/core": "^3.0.5",
-    "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
     "sass": "^1.58.1",
     "solid-js": "^1.6.9",
     "solid-start": "^0.2.16",
     "solid-start-cloudflare-pages": "^0.2.16",
     "ts-node": "^10.9.1",
-    "undici": "^5.15.1"
+    "undici": "^5.15.1",
+    "wrangler": "^2.10.0"
   },
   "engines": {
     "node": ">=16"

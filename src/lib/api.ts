@@ -3,7 +3,7 @@ import { redirect } from "solid-start"
 import { createServerData$ } from "solid-start/server"
 import getSession from "./session"
 
-const api = <T>(url: Parameters<typeof fetch>[0], options: (Parameters<typeof fetch>[1]) & {
+const api = <T>(endpoint: () => Parameters<typeof fetch>[0], options: (Parameters<typeof fetch>[1]) & {
   postprocess?: (r: any) => T
 } = {}) => {
   return createServerData$(async ([url,options], req) => {
@@ -36,7 +36,7 @@ const api = <T>(url: Parameters<typeof fetch>[0], options: (Parameters<typeof fe
       return { error };
     }
   }, {
-    key: () => [url,options]
+    key: () => [endpoint(),options]
   }) as Resource<T>
 }
 
