@@ -12,8 +12,6 @@ async function handler({request: req}: APIEvent) {
             "accept": "application/graphql+json, application/json",
             "accept-language": "en-US,en;q=0.9,la;q=0.8",
             "content-type": "application/json",
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": "\"Linux\"",
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "same-origin",

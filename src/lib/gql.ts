@@ -3,5 +3,6 @@ import server$ from 'solid-start/server'
 
 export const client = createClient({
   url: `/graphproxy`,
-  fetch: server$.fetch
+  fetch: server$.fetch,
+  requestPolicy: 'cache-and-network'
 })
