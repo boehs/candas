@@ -1,7 +1,7 @@
 import { gql } from "@urql/core";
 import { createEffect, Show } from "solid-js";
 import { createRouteData, RouteDataArgs, Title, useRouteData } from "solid-start";
-import query, { client } from "~/lib/gql";
+import { client } from "~/lib/gql";
 import { useCourse } from "~/routes/(main)";
 
 export function routeData({ params }: RouteDataArgs) {
