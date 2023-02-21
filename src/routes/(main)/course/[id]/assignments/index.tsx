@@ -95,7 +95,7 @@ function AssignmentTable(props: {
                 <td>{assignment.pointsPossible}</td>
                 <td>
                     <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
-                        {(Math.round(Number(assignment.submissionsConnection.nodes[0].grade)/assignment.pointsPossible)*100)}%
+                        {Math.round((Number(assignment.submissionsConnection.nodes[0].grade)/assignment.pointsPossible)*100)}%
                     </Show>
                 </td>
                 <td>{(new Date(assignment.dueAt)).toLocaleDateString()}</td>
