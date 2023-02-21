@@ -7,6 +7,8 @@ async function handler({request: req}: APIEvent) {
     if (!state.instance) throw redirect('/login')
     
     const body = JSON.stringify(await new Response(req.body).json())
+    
+    console.log(body)
 
     const proxied = await fetch(`https://${state.instance}/api/graphql`, {
         method: req.method,
