@@ -28,7 +28,7 @@ export default function Root() {
             <Routes>
               <FileRoutes />
             </Routes>
-            <sup id="lp" class="tiny"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a></sup>
+            <sup id="lp" class="tiny"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a> • v{APP_VERSION}</sup>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

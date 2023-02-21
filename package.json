@@ -1,5 +1,6 @@
 {
   "name": "candas",
+  "version": "0.0.1",
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",

@@ -7,4 +7,7 @@ export default defineConfig({
   plugins: [solid({
     adapter: cloudflare({})
   })],
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version),
+  },
 });
