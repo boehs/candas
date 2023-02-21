@@ -20,7 +20,6 @@ async function handler({request: req}: APIEvent) {
                 Authorization: `Bearer ${state.key}`,
             },
             body: body,
-            credentials: "include",
             referrerPolicy: "strict-origin-when-cross-origin"
         })
         const res = JSON.parse(await proxied.text())
