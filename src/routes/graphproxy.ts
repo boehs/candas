@@ -32,6 +32,9 @@ async function handler({request: req}: APIEvent) {
         return json(res)
     } catch (e) {
         console.log(e)
+        return new Response(e,{
+            status: 500
+        })
     }
 }
 
