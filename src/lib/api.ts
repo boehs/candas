@@ -9,9 +9,7 @@ const api = <T>(endpoint: () => Parameters<typeof fetch>[0], options: (Parameter
   return createServerData$(async ([url,options], req) => {
     const state = await getSession(req.request.headers.get('cookie'))
 
-    if (!state.instance) throw redirect('/login', {
-      status: 401
-    })
+    if (!state.instance) throw redirect('/login')
     url = `https://${state.instance}/api/v1/${url}`
 
     try {

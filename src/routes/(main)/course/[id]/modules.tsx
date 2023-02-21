@@ -95,7 +95,7 @@ export default function Modules() {
 	const params = useParams()
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
-		<For each={modules()}>
+		<For each={modules()} fallback={<p>Your teacher has not posted any modules yet</p>}>
 			{module => <details open>
 				<summary>{module.name}</summary>
 				<Table headers={['Title', 'Type']}>

@@ -1,8 +1,10 @@
-import { APIEvent, json } from "solid-start";
+import { APIEvent, json, redirect } from "solid-start";
 import getSession from "~/lib/session";
 
 async function handler({request: req}: APIEvent) {
     const state = await getSession(req.headers.get('cookie'))
+    
+    if (!state.instance) throw redirect('/login')
     
     const body = JSON.stringify(await new Response(req.body).json())
 
