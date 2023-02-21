@@ -3,12 +3,9 @@ import getSession from "~/lib/session";
 
 async function handler({request: req}: APIEvent) {
     const state = await getSession(req.headers.get('cookie'))
-    
     if (!state.instance) throw redirect('/login')
     
     const body = JSON.stringify(await new Response(req.body).json())
-    
-    console.log(body)
     
     try {
         const proxied = await fetch(`https://${state.instance}/api/graphql`, {
@@ -23,15 +20,12 @@ async function handler({request: req}: APIEvent) {
                 Authorization: `Bearer ${state.key}`,
             },
             body: body,
-            mode: "cors",
             credentials: "include",
             referrerPolicy: "strict-origin-when-cross-origin"
         })
         const res = JSON.parse(await proxied.text())
-        console.log(proxied,res)
         return json(res)
     } catch (e) {
-        console.log(e)
         return new Response(e,{
             status: 500
         })
