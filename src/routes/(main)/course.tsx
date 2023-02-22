@@ -20,12 +20,13 @@ function Chips() {
             kindShortcut(['c'], () => window.location.href = courses.instUrl as string)
         }
     })
-    kindShortcut(['b'], () => navigate(courses.prev))
+    kindShortcut(['b'], () => navigate(-1))
 
     return <div id="chips">
         <Show when={courses.prev != ''}>
             <span>
                 <span class="secondary">b</span>
+                {/* Fix this */}
                 <A end={true} href={courses.prev}>Go back</A>
             </span>
         </Show>
