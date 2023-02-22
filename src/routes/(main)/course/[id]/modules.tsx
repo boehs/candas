@@ -1,9 +1,8 @@
 import { A, useNavigate } from "@solidjs/router"
-import { createSignal, For, Show } from "solid-js"
-import { unwrap } from "solid-js/store"
+import { For, Show } from "solid-js"
 import { Dynamic } from "solid-js/web"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
-import Searchbar from "~/components/searchbar"
+import createFilteredView from "~/components/searchbar"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
@@ -84,24 +83,17 @@ export default function Modules() {
 			window.location.replace(location)
 		}
 	}
-	
-	const [search,setSearch] = createSignal('')
-	const modules = () => {
-		unfilteredModules()
-		if (search()) {
-			return unfilteredModules().map(_mod => {
-				const module = JSON.parse(JSON.stringify(unwrap(_mod)))
-				module.items = module.items.filter(item => item.title.includes(search()))
-				return module
-			})
-		} else return unfilteredModules()
-	}
-	
+
+	const [Searchbar, modules] = createFilteredView(unfilteredModules, (module, search) => {
+		module.items = module.items.filter(item => item.title.includes(search()))
+		return [module]
+	}, 'modules')
+
 	const params = useParams()
-	
+
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
-		<Searchbar context="modules" callback={setSearch}/>
+		{Searchbar}
 		<TableContext>
 			<For each={modules()} fallback={<p>Your teacher has not posted any modules yet</p>}>
 				{module => <details open={module.items.length > 0}>

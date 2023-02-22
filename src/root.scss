@@ -6,6 +6,7 @@
 
 * {
   border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 a {
@@ -231,7 +232,6 @@ h3 {
 }
 
 input {
-  display: inline-block;
   outline: none;
   border: #e8efe8 solid 2px;
   font-size: inherit;
@@ -241,5 +241,11 @@ input {
   
   &.search {
     width: 100%;
+    margin-block: 10px;
+    display: block;
+  }
+  
+  &:focus {
+    border-color: #878b87;
   }
 }

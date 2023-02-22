@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "@solidjs/router"
 import { gql } from "@urql/core"
 import { For, Show } from "solid-js"
 import { A, createRouteData, RouteDataArgs, Title, useRouteData } from "solid-start"
+import createFilteredView from "~/components/searchbar"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import { client } from "~/lib/gql"
@@ -105,8 +106,16 @@ function AssignmentTable(props: {
 }
 
 export default function Assignments() {
-    const { assignmentsGroups } = useRouteData<typeof routeData>()
+    const { assignmentsGroups: unfilteredAssignmentsGroups } = useRouteData<typeof routeData>()
+    
+    const [Searchbar, assignmentsGroups] = createFilteredView(unfilteredAssignmentsGroups, (assignment, search) => {
+        console.log(assignment)
+		assignment.node.assignmentsConnection.edges = assignment.node.assignmentsConnection.edges.filter(item => item.node.name.includes(search()))
+		return [assignment]
+	}, 'assignments')
+    
     return <TableContext>
+        {Searchbar}
         <For each={assignmentsGroups()}>
             {group => <Show when={group.node.assignmentsConnection.edges.length > 0}>
                 <details open>
