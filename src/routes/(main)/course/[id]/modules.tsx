@@ -1,7 +1,9 @@
 import { A, useNavigate } from "@solidjs/router"
-import { For, Show } from "solid-js"
+import { createSignal, For, Show } from "solid-js"
+import { unwrap } from "solid-js/store"
 import { Dynamic } from "solid-js/web"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
+import Searchbar from "~/components/searchbar"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
@@ -72,7 +74,7 @@ function ResolveUrl(props: {
 }
 
 export default function Modules() {
-	const { modules } = useRouteData<typeof routeData>()
+	const { modules: unfilteredModules } = useRouteData<typeof routeData>()
 	const navigate = useNavigate()
 	const { findCourse } = useCourse()
 	const navigateShim = (location: string) => {
@@ -82,13 +84,28 @@ export default function Modules() {
 			window.location.replace(location)
 		}
 	}
-
+	
+	const [search,setSearch] = createSignal('')
+	const modules = () => {
+		unfilteredModules()
+		if (search()) {
+			return unfilteredModules().map(_mod => {
+				const module = JSON.parse(JSON.stringify(unwrap(_mod)))
+				module.items = module.items.filter(item => item.title.includes(search()))
+				return module
+			})
+		} else return unfilteredModules()
+	}
+	
 	const params = useParams()
+	
+	
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
+		<Searchbar context="modules" callback={setSearch}/>
 		<TableContext>
 			<For each={modules()} fallback={<p>Your teacher has not posted any modules yet</p>}>
-				{module => <details open>
+				{module => <details open={module.items.length > 0}>
 					<summary>{module.name}</summary>
 					<Table headers={['Title', 'Type']}>
 						<For each={module.items}>

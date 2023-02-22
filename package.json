@@ -16,6 +16,7 @@
   "dependencies": {
     "@graphql-codegen/cli": "^2.13.12",
     "@graphql-codegen/client-preset": "^1.1.4",
+    "@solid-primitives/active-element": "^2.0.8",
     "@solid-primitives/context": "^0.1.2",
     "@solid-primitives/keyboard": "^1.0.5",
     "@solidjs/meta": "^0.28.0",

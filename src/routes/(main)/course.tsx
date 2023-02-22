@@ -1,8 +1,8 @@
-import { createShortcut } from "@solid-primitives/keyboard";
-import { For, Show } from "solid-js";
+import { createEffect, For, Show } from "solid-js";
 import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start";
 import { mode, pages, setMode, useCourse } from "../(main)";
 import { useBeforeLeave } from '@solidjs/router'
+import { kindShortcut } from "~/components/searchbar";
 
 function Chips() {
     const { courses, setCourses } = useCourse()
@@ -15,8 +15,12 @@ function Chips() {
         })
     })
 
-    createShortcut(['c'], () => window.location.href = courses.instUrl as string)
-    createShortcut(['b'], () => navigate(courses.prev))
+    createEffect(() => {
+        if (courses.instUrl) {
+            kindShortcut(['c'], () => window.location.href = courses.instUrl as string)
+        }
+    })
+    kindShortcut(['b'], () => navigate(courses.prev))
 
     return <div id="chips">
         <Show when={courses.prev != ''}>
@@ -41,7 +45,7 @@ export default function Course() {
     const prefix = () => location.pathname.replace(new RegExp(`\/(${pages.map(page => page[0].toLowerCase()).join('|')}).*`), '')
     const path = (page) => `${prefix()}/${page[0].toLowerCase()}`
     pages.forEach((page) => {
-        createShortcut([page[1]], () => {
+        kindShortcut([page[1]], () => {
             setMode(page[0])
             navigate(path(page))
         })
