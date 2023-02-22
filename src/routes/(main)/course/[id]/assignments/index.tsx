@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "@solidjs/router"
 import { gql } from "@urql/core"
 import { For, Show } from "solid-js"
 import { A, createRouteData, RouteDataArgs, Title, useRouteData } from "solid-start"
-import Table from "~/components/table"
+import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import { client } from "~/lib/gql"
 import { useCourse } from "~/routes/(main)"
@@ -34,7 +34,7 @@ export function routeData({ params }: RouteDataArgs) {
                 edges: assignment
             }
         }
-    }[],[number]>(async ([id]) => await client.query(gql`query($id: ID!) {
+    }[], [number]>(async ([id]) => await client.query(gql`query($id: ID!) {
         course(id: $id) {
           assignmentGroupsConnection {
             edges {
@@ -75,38 +75,38 @@ function AssignmentTable(props: {
 }) {
     const navigate = useNavigate()
     const params = useParams()
-    const {findCourse} = useCourse()
-    
+    const { findCourse } = useCourse()
+
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
-        <Title>Assignments: {findCourse(params.id).name}</Title>
-        <For each={props.assignments.map(ass => ass.node)}>
-            {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
-                color: (() => {
-                    if (assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0] && assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0].missing == true) return "red"
-                    else if (new Date(assignment.dueAt).getTime() > new Date().getTime()) return "green"
-                })()
-            }}>
-                <td><A href={`../assignments/${assignment.id}`}>{assignment.name}</A></td>
-                <td>
-                    <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
-                        {assignment.submissionsConnection.nodes[0].grade}
-                    </Show>
-                </td>
-                <td>{assignment.pointsPossible}</td>
-                <td>
-                    <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
-                        {Math.round((Number(assignment.submissionsConnection.nodes[0].grade)/assignment.pointsPossible)*100)}%
-                    </Show>
-                </td>
-                <td>{(new Date(assignment.dueAt)).toLocaleDateString()}</td>
-            </Tr>}
-        </For>
-    </Table>
+            <Title>Assignments: {findCourse(params.id).name}</Title>
+            <For each={props.assignments.map(ass => ass.node)}>
+                {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
+                    color: (() => {
+                        if (assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0] && assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0].missing == true) return "red"
+                        else if (new Date(assignment.dueAt).getTime() > new Date().getTime()) return "green"
+                    })()
+                }}>
+                    <td><A href={`../assignments/${assignment.id}`}>{assignment.name}</A></td>
+                    <td>
+                        <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
+                            {assignment.submissionsConnection.nodes[0].grade}
+                        </Show>
+                    </td>
+                    <td>{assignment.pointsPossible}</td>
+                    <td>
+                        <Show when={assignment.submissionsConnection.nodes && assignment.submissionsConnection.nodes[0]}>
+                            {Math.round((Number(assignment.submissionsConnection.nodes[0].grade) / assignment.pointsPossible) * 100)}%
+                        </Show>
+                    </td>
+                    <td>{(new Date(assignment.dueAt)).toLocaleDateString()}</td>
+                </Tr>}
+            </For>
+        </Table>
 }
 
 export default function Assignments() {
     const { assignmentsGroups } = useRouteData<typeof routeData>()
-    return <>
+    return <TableContext>
         <For each={assignmentsGroups()}>
             {group => <Show when={group.node.assignmentsConnection.edges.length > 0}>
                 <details open>
@@ -115,6 +115,5 @@ export default function Assignments() {
                 </details>
             </Show>}
         </For>
-        {/*<AssignmentTable assignments={assignments()}/>*/}
-    </>
+    </TableContext>
 }

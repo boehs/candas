@@ -15,8 +15,7 @@ function Chips() {
         })
     })
 
-    // @ts-expect-error
-    createShortcut(['c'], () => window.location.href = courses.instUrl)
+    createShortcut(['c'], () => window.location.href = courses.instUrl as string)
     createShortcut(['b'], () => navigate(courses.prev))
 
     return <div id="chips">
@@ -29,8 +28,7 @@ function Chips() {
         <Show when={courses.instUrl}>
             <span>
                 <span class="secondary">c</span>
-                {/*@ts-expect-error*/}
-                <a end={true} href={courses.instUrl}>Open canvas</a>
+                <a href={courses.instUrl as string}>Open canvas</a>
             </span>
         </Show>
     </div>

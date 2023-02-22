@@ -2,7 +2,7 @@ import { useNavigate } from "@solidjs/router"
 import { createEffect, For, Resource, Show, Suspense } from "solid-js"
 import ErrorBoundary, { A, RouteDataArgs, Title, useRouteData } from "solid-start"
 import NoContent from "~/components/noContent"
-import Table from "~/components/table"
+import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
 import { useCourse } from "~/routes/(main)"
@@ -16,13 +16,13 @@ export function routeData({ params }: RouteDataArgs) {
 
 export default function Wiki() {
     const { wiki, allPages } = useRouteData<typeof routeData>()
-    const {setCourses} = useCourse()
-    
-    createEffect(() => { if (wiki()) setCourses({instUrl: wiki().html_url}) })
+    const { setCourses } = useCourse()
+
+    createEffect(() => { if (wiki()) setCourses({ instUrl: wiki().html_url }) })
 
     return <>
         <Title>Wiki: Main</Title>
-        <AllPages wiki={wiki} allPages={allPages} prefix=''/>
+        <AllPages wiki={wiki} allPages={allPages} prefix='' />
     </>
 }
 
@@ -41,13 +41,15 @@ export function AllPages(props: {
         <ErrorBoundary>
             <Show when={props.allPages()}>
                 <h2>Pages</h2>
-                <Table headers={['Title']}>
-                    <For each={props.allPages()}>
-                        {page => <Tr goal={() => navigate(`${props.prefix}${page.page_id}`)}>
-                            <td><A href={`${props.prefix}${page.page_id}`}>{page.title}</A></td>
-                        </Tr>}
-                    </For>
-                </Table>
+                <TableContext>
+                    <Table headers={['Title']}>
+                        <For each={props.allPages()}>
+                            {page => <Tr goal={() => navigate(`${props.prefix}${page.page_id}`)}>
+                                <td><A href={`${props.prefix}${page.page_id}`}>{page.title}</A></td>
+                            </Tr>}
+                        </For>
+                    </Table>
+                </TableContext>
             </Show>
         </ErrorBoundary>
     </>

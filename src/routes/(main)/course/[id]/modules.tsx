@@ -2,7 +2,7 @@ import { A, useNavigate } from "@solidjs/router"
 import { For, Match, Show, Switch } from "solid-js"
 import { createMutable, produce, unwrap } from "solid-js/store"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
-import Table from "~/components/table"
+import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
 import { camelToTitle } from "~/lib/helpers"
@@ -95,33 +95,35 @@ export default function Modules() {
 	const params = useParams()
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
-		<For each={modules()} fallback={<p>Your teacher has not posted any modules yet</p>}>
-			{module => <details open>
-				<summary>{module.name}</summary>
-				<Table headers={['Title', 'Type']}>
-					<For each={module.items}>
-						{item => <Show when={item.type != 'SubHeader'} fallback={<tr>
-							<td style={{
-								"display": "inline-block",
-								"margin-left": `${item.indent * 30}px`
-							}}>
-								<ResolveUrl item={item} course={params.id} />
-							</td>
-							<td />
-						</tr>}>
-							<Tr goal={() => navigateShim(resolveUrl(item, params.id)[1])}>
+		<TableContext>
+			<For each={modules()} fallback={<p>Your teacher has not posted any modules yet</p>}>
+				{module => <details open>
+					<summary>{module.name}</summary>
+					<Table headers={['Title', 'Type']}>
+						<For each={module.items}>
+							{item => <Show when={item.type != 'SubHeader'} fallback={<tr>
 								<td style={{
 									"display": "inline-block",
 									"margin-left": `${item.indent * 30}px`
 								}}>
 									<ResolveUrl item={item} course={params.id} />
 								</td>
-								<td>{camelToTitle(item.type)}</td>
-							</Tr>
-						</Show>}
-					</For>
-				</Table>
-			</details>}
-		</For>
+								<td />
+							</tr>}>
+								<Tr goal={() => navigateShim(resolveUrl(item, params.id)[1])}>
+									<td style={{
+										"display": "inline-block",
+										"margin-left": `${item.indent * 30}px`
+									}}>
+										<ResolveUrl item={item} course={params.id} />
+									</td>
+									<td>{camelToTitle(item.type)}</td>
+								</Tr>
+							</Show>}
+						</For>
+					</Table>
+				</details>}
+			</For>
+		</TableContext>
 	</>
 }
