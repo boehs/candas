@@ -78,7 +78,7 @@ function AssignmentTable(props: {
     const { findCourse } = useCourse()
 
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
-            <Title>Assignments: {findCourse(params.id).name}</Title>
+            <Title>Assignments for {findCourse(params.id).name}</Title>
             <For each={props.assignments.map(ass => ass.node)}>
                 {assignment => <Tr goal={() => navigate(`../assignments/${assignment.id}`)} style={{
                     color: (() => {

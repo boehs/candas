@@ -1,6 +1,6 @@
 import { A, useNavigate } from "@solidjs/router"
-import { For, Match, Show, Switch } from "solid-js"
-import { createMutable, produce, unwrap } from "solid-js/store"
+import { For, Show } from "solid-js"
+import { Dynamic } from "solid-js/web"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
@@ -47,16 +47,15 @@ const maps = {
 		'Page': 'wiki'
 	},
 	external: {
-		// TODO: No hardcode
-		'Quiz': (mod: Module, course: any) => `https://${process.env.ENDPOINT}/courses/${course}/quizzes/${mod.id}`
+		'Quiz': (mod: Module) => mod.url.replace('api/v1/', '')
 	}
 }
 
-function resolveUrl(mod: Module, course: any): ['A' | 'a', string] | null {
+function resolveUrl(mod: Module): ['A' | 'a', string] | null {
 	if (mod.id && maps.internal[mod.type])
 		return ['A', `../${maps.internal[mod.type]}/${mod.id}`]
 	if (maps.external[mod.type])
-		return ['a', maps.external[mod.type](mod, course)]
+		return ['a', maps.external[mod.type](mod)]
 	if (mod.external_url)
 		return ['a', mod.external_url]
 	return null
@@ -64,20 +63,12 @@ function resolveUrl(mod: Module, course: any): ['A' | 'a', string] | null {
 
 function ResolveUrl(props: {
 	item: Module
-	course: any
 }) {
-	const resolved = resolveUrl(props.item, props.course)
-	return <Switch>
-		<Match when={!resolved}>
-			{props.item.title}
-		</Match>
-		<Match when={resolved[0] == 'A'}>
-			<A href={resolved[1]}>{props.item.title}</A>
-		</Match>
-		<Match when={resolved[0] == 'a'}>
-			<i><a href={resolved[1]}>{props.item.title}</a></i>
-		</Match>
-	</Switch>
+	const resolved = resolveUrl(props.item)
+
+	return <Dynamic component={!resolved ? 'span' : resolved[0] == 'A' ? A : 'a'} href={resolved ? resolved[1] : null}>
+		{props.item.title}
+	</Dynamic>
 }
 
 export default function Modules() {
@@ -106,7 +97,7 @@ export default function Modules() {
 									"display": "inline-block",
 									"margin-left": `${item.indent * 30}px`
 								}}>
-									<ResolveUrl item={item} course={params.id} />
+									<ResolveUrl item={item} />
 								</td>
 								<td />
 							</tr>}>
@@ -115,7 +106,7 @@ export default function Modules() {
 										"display": "inline-block",
 										"margin-left": `${item.indent * 30}px`
 									}}>
-										<ResolveUrl item={item} course={params.id} />
+										<ResolveUrl item={item} />
 									</td>
 									<td>{camelToTitle(item.type)}</td>
 								</Tr>
