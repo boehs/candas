@@ -4,19 +4,21 @@ import { RouteDataArgs, useRouteData } from "solid-start"
 import { Outlet } from "solid-start"
 import api from "~/lib/api"
 
+interface Announcement {
+    title: string,
+    posted_at: string,
+    id: number,
+    message: string
+    url: string
+}
+
 export function routeData({params}: RouteDataArgs) {
-    const annoucements = api(() => `announcements?context_codes[]=course_${params.id}`)
+    const annoucements = api<Announcement[]>(() => `announcements?context_codes[]=course_${params.id}`)
     return { annoucements }
 }
 
 export const [AnnouncementsContext,useAnnouncements] = createContextProvider((props: {
-    resource: Resource<[{
-        title: string,
-        posted_at: string,
-        id: number,
-        message: string
-        url: string
-    }]>
+    resource: Resource<Announcement[]>
 }) => {
     return props.resource
 })
