@@ -1,7 +1,7 @@
 import { createContextProvider } from "@solid-primitives/context";
 import { createSignal, For, Resource, Show } from "solid-js";
 import { createStore } from "solid-js/store";
-import ErrorBoundary, { A, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
+import ErrorBoundary, { A, Link, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
 import { kindShortcut } from "~/components/searchbar";
 import Spinner from "~/components/spinner";
 import api from "~/lib/api";
@@ -50,7 +50,7 @@ export default function Main() {
   const { courses } = useRouteData<typeof routeData>()
   if (courses()) courses().forEach((course, i) => kindShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode().toLowerCase()}`)))
   return (<>
-    <link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${pages.find(page => page[0] == mode())[2]}</text></svg>`}></link>
+    <Link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${pages.find(page => page[0] == mode())[2]}</text></svg>`}/>
     <header>
       <h2>
         <A end={true} href="/">Candas</A>

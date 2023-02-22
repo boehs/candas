@@ -99,7 +99,6 @@ export default function Modules() {
 	
 	const params = useParams()
 	
-	
 	return <>
 		<Title>Modules: {findCourse(params.id).name}</Title>
 		<Searchbar context="modules" callback={setSearch}/>

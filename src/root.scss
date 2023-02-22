@@ -231,11 +231,15 @@ h3 {
 }
 
 input {
-  width: 100%;
   display: inline-block;
   outline: none;
   border: #e8efe8 solid 2px;
   font-size: inherit;
   color: black;
   padding: 10px;
+  box-sizing: border-box;
+  
+  &.search {
+    width: 100%;
+  }
 }

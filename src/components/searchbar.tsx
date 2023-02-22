@@ -7,7 +7,7 @@ export default function Searchbar(props: {
     callback: Setter<string>
 }) {    
 
-    return <input type="text" class="Search" placeholder={`Search your ${props.context}`} onInput={e => props.callback(e.target.value)}/>
+    return <input type="text" class="search" placeholder={`Search your ${props.context}`} onInput={e => props.callback(e.target.value)}/>
 }
 
 const activeElm = createActiveElement()
