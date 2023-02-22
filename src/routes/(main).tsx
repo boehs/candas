@@ -51,15 +51,6 @@ export default function Main() {
   if (courses()) courses().forEach((course, i) => kindShortcut([`${i}`], () => navigate(`/course/${course.id}/${mode().toLowerCase()}`)))
   return (<>
     <Link rel="icon" href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${pages.find(page => page[0] == mode())[2]}</text></svg>`}/>
-    <header>
-      <h2>
-        <A end={true} href="/">Candas</A>
-        <Show when={isRouting()}>
-          <Spinner />
-        </Show>
-      </h2>
-      <sup>By 🏕️ Humanity</sup>
-    </header>
     <ErrorBoundary>
       <div id="content">
         <section class="sticky">
@@ -67,7 +58,11 @@ export default function Main() {
             <For each={courses()}>
               {(course, i) => <li>
                 <span class="secondary">{i()}</span>
-                <A style={{ color: `hsl(${(360 / courses().length) * i()},50%,60%)` }} end={false} href={`/course/${course.id}/${mode().toLowerCase()}`}>{course.name}</A>
+                <A
+                  style={{ color: `hsl(${(360 / courses().length) * i()},50%,60%)` }}
+                  end={false}
+                  href={`/course/${course.id}/${mode().toLowerCase()}`}
+                >{course.name}</A>
               </li>}
             </For>
           </ul>
