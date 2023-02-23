@@ -4,7 +4,7 @@ import { createServerData$ } from "solid-start/server"
 import getSession from "./session"
 
 const api = <T>(endpoint: () => Parameters<typeof fetch>[0], options: (Parameters<typeof fetch>[1]) & {
-  postprocess?: (r: any) => T
+  postprocess?: (r: ReturnType<JSON["parse"]>) => T
 } = {}) => {
   return createServerData$(async ([url,options], req) => {
     const state = await getSession(req.request.headers.get('cookie'))

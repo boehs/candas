@@ -1,17 +1,16 @@
 import { createContextProvider } from "@solid-primitives/context";
-import { createSignal, For, Resource, Show } from "solid-js";
+import { createSignal, For } from "solid-js";
 import { createStore } from "solid-js/store";
-import ErrorBoundary, { A, Link, Outlet, useIsRouting, useLocation, useNavigate, useRouteData } from "solid-start";
+import ErrorBoundary, { A, Link, Outlet, useLocation, useNavigate, useRouteData } from "solid-start";
 import { kindShortcut } from "~/components/searchbar";
-import Spinner from "~/components/spinner";
 import api from "~/lib/api";
 
 export function routeData() {
-  const courses: Resource<[{
+  const courses = api<[{
     id: number
     name: string
     concluded: boolean
-  }]> = api(() => 'courses?enrollment_state=active&include[]=concluded', {
+  }]>(() => 'courses?enrollment_state=active&include[]=concluded', {
     postprocess: (res) => res.filter(course => !course.concluded)
   })
 
@@ -42,7 +41,6 @@ export const [mode, setMode] = createSignal<typeof pages[number][number]>(pages[
 export default function Main() {
   const location = useLocation()
   const navigate = useNavigate()
-  const isRouting = useIsRouting()
   
   const search = pages.find(v => location.pathname.includes(v[0].toLowerCase()))
   setMode(search ? search[0] : pages[0][0])
