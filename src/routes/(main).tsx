@@ -10,7 +10,7 @@ export function routeData() {
     id: number
     name: string
     concluded: boolean
-  }]>(() => 'courses?enrollment_state=active&include[]=concluded', {
+  }]>(() => 'courses?enrollment_state=active&include[]=concluded&per_page=100', {
     postprocess: (res) => res.filter(course => !course.concluded)
   })
 
