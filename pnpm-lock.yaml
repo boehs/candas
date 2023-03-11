@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@solid-primitives/active-element': ^2.0.8
   '@solid-primitives/context': ^0.1.2
-  '@solid-primitives/keyboard': 1.0.9
+  '@solid-primitives/keyboard': ^1.0.10
   '@solidjs/meta': ^0.28.0
   '@solidjs/router': ^0.7.0
   '@urql/core': ^3.1.0
@@ -20,7 +20,7 @@ specifiers:
 dependencies:
   '@solid-primitives/active-element': 2.0.8_solid-js@1.6.11
   '@solid-primitives/context': 0.1.2_solid-js@1.6.11
-  '@solid-primitives/keyboard': 1.0.9_solid-js@1.6.11
+  '@solid-primitives/keyboard': 1.0.10_solid-js@1.6.11
   '@solidjs/meta': 0.28.2_solid-js@1.6.11
   '@solidjs/router': 0.7.0_solid-js@1.6.11
   '@urql/core': 3.1.1_graphql@16.6.0
@@ -2025,8 +2025,8 @@ packages:
       solid-js: 1.6.11
     dev: false
 
-  /@solid-primitives/keyboard/1.0.9_solid-js@1.6.11:
-    resolution: {integrity: sha512-gJXYQD7jSf2fs0B20u2xspMfNJgMFgmF+UvrY/p5cWkHzL0Nn9CLATwtUylEgx0AsBmzFuvEBDhWAWLYtUcR3g==}
+  /@solid-primitives/keyboard/1.0.10_solid-js@1.6.11:
+    resolution: {integrity: sha512-0a/Hu+78SpCT88CXoBGldCbYBS1kRbM8iN0hg1zQm7qglhKSgujFCj6eK8UIOmx0gjbT4ZEat49hh/5DL/nRBQ==}
     peerDependencies:
       solid-js: ^1.6.0
     dependencies:

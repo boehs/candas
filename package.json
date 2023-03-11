@@ -1,6 +1,6 @@
 {
   "name": "candas",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@solid-primitives/active-element": "^2.0.8",
     "@solid-primitives/context": "^0.1.2",
-    "@solid-primitives/keyboard": "1.0.8",
+    "@solid-primitives/keyboard": "^1.0.10",
     "@solidjs/meta": "^0.28.0",
     "@solidjs/router": "^0.7.0",
     "@urql/core": "^3.1.0",

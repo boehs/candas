@@ -2,6 +2,10 @@
 
 :root {
   --accent: #1c75a5;
+  --altAcc: #e8efe8;
+  --altAccDark: #878b87;
+  --bg2: #e9eef0;
+  --bg3: gray;
 }
 
 * {
@@ -65,7 +69,7 @@ table {
 
   tr {
     &:nth-child(2n) {
-      background-color: #e9eef0;
+      background-color: var(--bg2);
     }
   }
   
@@ -132,7 +136,7 @@ header {
   }
   
   sup {
-    color: gray;
+    color: var(--bg3);
     font-size: 12px;
     
     a {
@@ -150,17 +154,17 @@ h2 {
 }
 
 .focused {
-  background-color: #e8efe8 !important;
+  background-color: var(--altAcc) !important;
   text-decoration: underline;
-  color: #878b87 !important;
+  color: var(--altAccDark) !important;
   
   * {
-    color: #878b87 !important;
+    color: var(--altAccDark) !important;
   }
 }
 
 .secondary {
-  color: gray;
+  color: var(--bg3);
   
   &::after {
     content: ' ';
@@ -218,7 +222,7 @@ form {
 }
 
 .tiny {
-  color: gray;
+  color: var(--bg3);
   font-size: 12px;
 }
 
@@ -233,7 +237,7 @@ h3 {
 
 input {
   outline: none;
-  border: #e8efe8 solid 2px;
+  border: var(--altAcc) solid 2px;
   font-size: inherit;
   color: black;
   padding: 10px;
@@ -246,6 +250,25 @@ input {
   }
   
   &:focus {
-    border-color: #878b87;
+    border-color: var(--altAccDark);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #212121;
+    color: white;
+  }
+  
+  :root {
+    --accent: #258cc4;
+    --altAcc: #3a3f3a;
+    --altAccDark: #e8efe8;
+    --bg2: #272929;
+    --bg3: lightgray;
+  }
+  
+  a.active {
+    color: white !important;
   }
 }
