@@ -34,7 +34,7 @@ export default function Root() {
               <Spinner />
             </Show>
           </h2>
-          <sup>By 🏕️ Humanity</sup>
+          <sup>By 🏕️ Humanateam</sup>
         </header>
         <Suspense>
           <ErrorBoundary>

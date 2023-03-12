@@ -1,6 +1,10 @@
 {
   "name": "candas",
-  "version": "0.1.5",
+  "version": "0.1.6",
+  "author": {
+    "name": "Evan Boehs",
+    "url": "https://boehs.org"
+  },
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
