@@ -31,6 +31,7 @@ const api = <T>(endpoint: () => Parameters<typeof fetch>[0], options: (Parameter
         return { error: e };
       }
     } catch (error) {
+      console.log(error)
       return { error };
     }
   }, {

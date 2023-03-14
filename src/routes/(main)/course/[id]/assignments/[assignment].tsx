@@ -35,17 +35,17 @@ export function routeData({ params }: RouteDataArgs) {
         key: () => [params.assignment]
     })
 
-    return assignment
+    return { assignment }
 }
 
 export default function AssignmentView() {
     const { setCourses } = useCourse()
-    const assignment = useRouteData<typeof routeData>()
+    const { assignment } = useRouteData<typeof routeData>()
 
     createEffect(() => { if (assignment()) setCourses({ instUrl: assignment().htmlUrl }) })
 
     return <>
-        <Show when={assignment()}>
+        <Show when={assignment() != undefined}>
             <Title>{assignment().name}</Title>
             <h1>{assignment().name}</h1>
             <ul>
