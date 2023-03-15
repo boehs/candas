@@ -19,7 +19,7 @@ export default function Announcements() {
     }, 'announcements')
 
     return <>
-        <Title>Announcements for {findCourse(params.id).name}</Title>
+        <Title>Announcements for {findCourse(params.id) ? findCourse(params.id).name : params.id}</Title>
         {Searchbar}
         <Table headers={['Title', 'Date']}>
             <TableContext>

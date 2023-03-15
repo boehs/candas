@@ -92,7 +92,7 @@ export default function Modules() {
 	const params = useParams()
 
 	return <>
-		<Title>Modules: {findCourse(params.id).name}</Title>
+		<Title>Modules: {findCourse(params.id) ? findCourse(params.id).name : params.id}</Title>
 		{Searchbar}
 		<TableContext>
 			<For each={modules()} fallback={<p>Your teacher has not posted any modules yet</p>}>

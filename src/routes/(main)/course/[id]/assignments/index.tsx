@@ -109,7 +109,6 @@ export default function Assignments() {
     const { assignmentsGroups: unfilteredAssignmentsGroups } = useRouteData<typeof routeData>()
     
     const [Searchbar, assignmentsGroups] = createFilteredView(unfilteredAssignmentsGroups, (assignment, search) => {
-        console.log(assignment)
 		assignment.node.assignmentsConnection.edges = assignment.node.assignmentsConnection.edges.filter(item => item.node.name.includes(search()))
 		return [assignment]
 	}, 'assignments')
