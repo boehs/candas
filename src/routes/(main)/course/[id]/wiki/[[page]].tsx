@@ -1,6 +1,5 @@
-import { useNavigate } from "@solidjs/router"
 import { createEffect, For, Resource, Show, Suspense } from "solid-js"
-import ErrorBoundary, { A, RouteDataArgs, Title, useRouteData } from "solid-start"
+import ErrorBoundary, { A, RouteDataArgs, Title, useRouteData, useParams, useNavigate } from "solid-start"
 import NoContent from "~/components/noContent"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
@@ -9,7 +8,7 @@ import { useCourse } from "~/routes/(main)"
 import wikiCss from './wiki.module.scss'
 
 export function routeData({ params }: RouteDataArgs) {
-    const wiki = api(() => `courses/${params.id}/front_page`)
+    const wiki = api(() => `courses/${params.id}/${params.page ? `pages/${params.page}` : 'front_page'}`)
     const allPages = api(() => `courses/${params.id}/pages/`)
     return { wiki, allPages }
 }
@@ -19,10 +18,12 @@ export default function Wiki() {
     const { setCourses } = useCourse()
 
     createEffect(() => { if (wiki()) setCourses({ instUrl: wiki().html_url }) })
+    
+    const params = useParams()
 
     return <>
         <Title>Wiki: Main</Title>
-        <AllPages wiki={wiki} allPages={allPages} prefix='' />
+        <AllPages wiki={wiki} allPages={allPages} prefix={params.page != undefined ? '../' : ''} />
     </>
 }
 
