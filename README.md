@@ -25,4 +25,5 @@ Candas technically violates the canvas TOS, as it does not follow the Oauth flow
 
 ## Prior art
 
-- [Clanvas](https://github.com/marklalor/clanvas): A TUI for Canvas
+- 👩‍💻 [Clanvas](https://github.com/marklalor/clanvas): A TUI for Canvas
+- ⛵️ [Caravel](https://github.com/ivynya/Caravel): Angular canvas client which requires a CORS proxy
