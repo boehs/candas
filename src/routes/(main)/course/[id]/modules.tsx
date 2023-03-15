@@ -32,10 +32,7 @@ export function routeData({ params }: RouteDataArgs) {
 		postprocess: (r) => r.map(module => {
 			module.items = module.items.map(item => {
 				// Edgecase: Assignments
-				if (item.content_id) {
-					item.id = item.content_id
-					if (item.content_id == 7047587) console.log('e')
-				}
+				if (item.content_id) item.id = item.content_id
 				// Edgecase: Wiki
 				if (item.type == 'Page') item.id = item.page_url as number
 				return item
