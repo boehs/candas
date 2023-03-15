@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "@solidjs/router"
 import { gql } from "@urql/core"
-import { For, Show } from "solid-js"
+import { createEffect, For, Show } from "solid-js"
 import { A, createRouteData, RouteDataArgs, Title, useRouteData } from "solid-start"
 import createFilteredView from "~/components/searchbar"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
+import { listOpenShim } from "~/lib/courses"
 import { client } from "~/lib/gql"
 import { useCourse } from "~/routes/(main)"
 
@@ -78,6 +79,8 @@ function AssignmentTable(props: {
     const params = useParams()
     const { findCourse } = useCourse()
 
+    createEffect(listOpenShim(() => params.id,'assignments'))
+    
     return <Table headers={['Name', 'Grade', 'Possible', '%', 'Due']}>
             <Title>Assignments for {findCourse(params.id).name}</Title>
             <For each={props.assignments.map(ass => ass.node)}>

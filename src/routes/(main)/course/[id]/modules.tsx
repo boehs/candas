@@ -1,11 +1,12 @@
 import { A, useNavigate } from "@solidjs/router"
-import { For, Show } from "solid-js"
+import { createEffect, For, Show } from "solid-js"
 import { Dynamic } from "solid-js/web"
 import { RouteDataArgs, Title, useParams, useRouteData } from "solid-start"
 import createFilteredView from "~/components/searchbar"
 import Table, { TableContext } from "~/components/table"
 import Tr from "~/components/tr"
 import api from "~/lib/api"
+import { listOpenShim } from "~/lib/courses"
 import { camelToTitle } from "~/lib/helpers"
 import { useCourse } from "~/routes/(main)"
 
@@ -90,6 +91,8 @@ export default function Modules() {
 	}, 'modules')
 
 	const params = useParams()
+	
+	createEffect(listOpenShim(() => params.id,'modules'))
 
 	return <>
 		<Title>Modules: {findCourse(params.id) ? findCourse(params.id).name : params.id}</Title>
