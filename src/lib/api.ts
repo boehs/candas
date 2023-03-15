@@ -35,7 +35,7 @@ const api = <T>(endpoint: () => Parameters<typeof fetch>[0], options: (Parameter
       return { error };
     }
   }, {
-    key: () => [endpoint(),options]
+    key: () => [endpoint(),options] as const
   }) as Resource<T>
 }
 

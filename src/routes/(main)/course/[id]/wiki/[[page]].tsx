@@ -7,9 +7,19 @@ import api from "~/lib/api"
 import { useCourse } from "~/routes/(main)"
 import wikiCss from './wiki.module.scss'
 
+type Wiki = {
+    html_url: string
+    body: string
+}
+
+type WikiPage = {
+    page_id: number
+    title: string
+}[]
+
 export function routeData({ params }: RouteDataArgs) {
-    const wiki = api(() => `courses/${params.id}/${params.page ? `pages/${params.page}` : 'front_page'}`)
-    const allPages = api(() => `courses/${params.id}/pages/`)
+    const wiki = api<Wiki>(() => `courses/${params.id}/${params.page ? `pages/${params.page}` : 'front_page'}`)
+    const allPages = api<WikiPage>(() => `courses/${params.id}/pages/`)
     return { wiki, allPages }
 }
 
@@ -28,8 +38,8 @@ export default function Wiki() {
 }
 
 export function AllPages(props: {
-    wiki: Resource<any>,
-    allPages: Resource<any>
+    wiki: Resource<Wiki>,
+    allPages: Resource<WikiPage>
     prefix: string
 }) {
     const navigate = useNavigate()

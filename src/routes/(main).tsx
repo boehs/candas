@@ -9,7 +9,10 @@ export function routeData() {
   const courses = api<[{
     id: number
     name: string
-    concluded: boolean
+    concluded: boolean,
+    calendar: {
+      ics: string
+    }
   }]>(() => 'courses?enrollment_state=active&include[]=concluded&per_page=100', {
     postprocess: (res) => res.filter(course => !course.concluded)
   })
