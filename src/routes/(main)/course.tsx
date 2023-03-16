@@ -1,8 +1,8 @@
-import { createEffect, For, Show } from "solid-js";
-import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start";
-import { mode, pages, setMode, useCourse } from "../(main)";
+import { createEffect, For, Show, Suspense } from "solid-js"
+import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start"
+import { mode, pages, setMode, useCourse } from "../(main)"
 import { useBeforeLeave } from '@solidjs/router'
-import { kindShortcut } from "~/components/searchbar";
+import { kindShortcut } from "~/components/searchbar"
 
 function Chips() {
     const { courses, setCourses } = useCourse()
@@ -66,7 +66,9 @@ export default function Course() {
         <ErrorBoundary>
             <main>
                 <Chips />
-                <Outlet />
+                <Suspense>
+                    <Outlet />
+                </Suspense>
             </main>
         </ErrorBoundary>
     </>

@@ -36,13 +36,11 @@ export default function Root() {
           </h2>
           <sup>By 🏕️ Humanateam</sup>
         </header>
-        <Suspense>
           <ErrorBoundary>
             <Routes>
               <FileRoutes />
             </Routes>
           </ErrorBoundary>
-        </Suspense>
         <sup id="lp" class="tiny"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a> • v{APP_VERSION}</sup>
         <Scripts />
       </Body>
