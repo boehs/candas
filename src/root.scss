@@ -42,7 +42,7 @@ body {
   margin: 0;
   padding: 8pt 0 8pt 8pt;
   --accent: hsl(var(--colour), 71%, 38%);
-  background-color: hsl(var(--colour), 70%, 40%);
+  background-color: hsl(var(--colour), 20%, 90%);
   height: 100%;
 }
 
@@ -168,7 +168,7 @@ section {
       a {
         display: block;
         padding: 8pt 10pt;
-        color: hsl(var(--colour), 40%, 95%);
+        color: hsl(var(--colour), 60%, 20%);
         &.active {
           background-color: hsl(var(--colour), 11%, 98%);
           box-shadow:
@@ -189,7 +189,7 @@ section {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   padding: 8pt 0 8pt 8pt;
-  background-color: hsl(var(--colour), 40%, 50%);
+  background-color: hsl(var(--colour), 10%, 90%);
 }
 
 main {
