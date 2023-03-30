@@ -1,12 +1,14 @@
-import { createEffect, For, Show, Suspense } from "solid-js"
+import { createEffect, For, Show, Suspense, useContext } from "solid-js"
 import ErrorBoundary, { A, Outlet, useLocation, useNavigate } from "solid-start"
 import { mode, pages, setMode, useCourse } from "../(main)"
-import { useBeforeLeave } from '@solidjs/router'
+import { useBeforeLeave, useParams } from '@solidjs/router'
 import { kindShortcut } from "~/components/searchbar"
+import { useColourContext } from "~/root"
 
 function Chips() {
-    const { courses, setCourses } = useCourse()
+    const { courses, setCourses, findCourseIndex } = useCourse()
     const navigate = useNavigate()
+    const params = useParams()
 
     useBeforeLeave(e => {
         setCourses({
@@ -20,6 +22,14 @@ function Chips() {
             kindShortcut(['c'], () => window.location.href = courses.instUrl as string)
         }
     })
+
+    const [_,setColour] = useColourContext()
+    createEffect(() => {
+        if (params.id) {
+            setColour((360 / (courses.courses() || []).length) * findCourseIndex(params.id) + 'deg')
+        }
+    })
+
     kindShortcut(['b'], () => navigate(-1))
 
     return <div id="chips">
@@ -52,13 +62,15 @@ export default function Course() {
         })
     })
 
-    return <>
+    return <section class="two">
         <ErrorBoundary>
-            <ul class="sticky">
+            <ul>
                 <For each={pages}>
                     {item => <li>
-                        <span class="secondary">{item[1]}</span>
-                        <A class={`${mode() == item[0] ? "active" : ""}`} href={path(item)} onClick={() => setMode(item[0])}>{item[0]}</A>
+                        <A class={`${mode() == item[0] ? "active" : ""}`} href={path(item)} onClick={() => setMode(item[0])}>
+                            <span class="secondary">{item[1]}</span>
+                            {item[0]}
+                        </A>
                     </li>}
                 </For>
             </ul>
@@ -71,5 +83,5 @@ export default function Course() {
                 </Suspense>
             </main>
         </ErrorBoundary>
-    </>
+    </section>
 }

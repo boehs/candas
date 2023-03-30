@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 :root {
-  --accent: #1c75a5;
+  --colour: 150deg;
   --altAcc: #e8efe8;
   --altAccDark: #878b87;
   --bg2: #e9eef0;
@@ -22,6 +22,14 @@ a {
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
 a.active {
   pointer-events: none;
   cursor: default;
@@ -32,20 +40,10 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 20px;
   margin: 0;
-  padding: 50px;
-}
-
-div#content {
-  display: flex;
-  gap: 20px;
-  max-width: 100%;
-  flex-wrap: wrap;
-  
-  > *:not(main) {
-    min-width: max-content;
-    align-self: flex-start;
-    flex-shrink: 0;
-  }
+  padding: 8pt 0 8pt 8pt;
+  --accent: hsl(var(--colour), 71%, 38%);
+  background-color: hsl(var(--colour), 70%, 40%);
+  height: 100%;
 }
 
 ul {
@@ -55,7 +53,7 @@ ul {
 }
 
 main {
-  flex: 1;
+  background-color: white;
 }
 
 table {
@@ -106,11 +104,6 @@ table {
   }
 }
 
-.sticky {
-  position: sticky;
-  top: 50px
-}
-
 details {
   border: 2px solid var(--accent);
   //padding: 10px;
@@ -129,8 +122,6 @@ details {
 }
 
 header {
-  margin-block-end: 0.5em;
-  
   h2 {
     margin: 0;
   }
@@ -163,8 +154,53 @@ h2 {
   }
 }
 
+section {
+  display: flex;
+  gap: 8pt;
+  min-height: 100%;
+
+  > ul, > div {
+    width: 200px;
+
+    li {
+      border-radius: 10pt;
+
+      a {
+        display: block;
+        padding: 8pt 10pt;
+        color: hsl(var(--colour), 40%, 95%);
+        &.active {
+          background-color: hsl(var(--colour), 11%, 98%);
+          box-shadow:
+            rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+            rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+      }
+    }
+  }
+
+  > :not(ul, div) {
+    flex: 1;
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.two {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 8pt 0 8pt 8pt;
+  background-color: hsl(var(--colour), 40%, 50%);
+}
+
+main {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: white;
+  padding: 8pt;
+}
+
 .secondary {
-  color: var(--bg3);
+  color: hsl(var(--colour), 40%, 60%);
   
   &::after {
     content: ' ';
@@ -222,7 +258,6 @@ form {
 }
 
 .tiny {
-  color: var(--bg3);
   font-size: 12px;
 }
 
