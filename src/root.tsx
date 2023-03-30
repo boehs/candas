@@ -1,5 +1,6 @@
 // @refresh reload
-import { Show, Suspense } from "solid-js";
+import { createContextProvider } from "@solid-primitives/context";
+import { createSignal, Show } from "solid-js";
 import {
   A,
   Body,
@@ -11,14 +12,13 @@ import {
   Routes,
   Scripts,
   Title,
-  useIsRouting,
 } from "solid-start";
-import Spinner from "./components/spinner";
 import "./root.scss";
 
+export const [ColourProvider, useColourContext] = createContextProvider(() => createSignal('0'))
+
 export default function Root() {
-  const isRouting = useIsRouting()
-  
+
   return (
     <Html lang="en">
       <Head>
@@ -26,24 +26,19 @@ export default function Root() {
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Body>
-        <header>
-          <h2>
-            <A end={true} href="/">Candas</A>
-            <Show when={isRouting()}>
-              <Spinner />
-            </Show>
-          </h2>
-          <sup>By 🏕️ Humanateam</sup>
-        </header>
+      <ColourProvider>
+        <Body style={{
+          "--colour": useColourContext()[0]()
+        }}>
           <ErrorBoundary>
             <Routes>
               <FileRoutes />
             </Routes>
           </ErrorBoundary>
-        <sup id="lp" class="tiny"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a> • v{APP_VERSION}</sup>
-        <Scripts />
-      </Body>
+          <sup id="lp" class="tiny secondary"><a href="https://liberapay.com/e/donate">Donate</a> • <a href="https://github.com/boehs/candas">Git</a> • v{APP_VERSION}</sup>
+          <Scripts />
+        </Body>
+      </ColourProvider>
     </Html>
   );
 }
